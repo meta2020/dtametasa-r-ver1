@@ -18,7 +18,7 @@ if it is not installed, please install from R CRAN `install.packages("package_na
 
 - data-Lym.csv: Example 2 data
 
-- examples.R: reproduce codes for figure and appendix table 
+- examples.R: reproducible codes for figure and appendix table 
 
 
 ## simulation/
@@ -52,7 +52,11 @@ if it is not installed, please install from R CRAN `install.packages("package_na
 
 ### res/
 
+- Readme.txt: notations
+
 - 3 folders to save the simulation results
+
+
 
 
 
