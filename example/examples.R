@@ -21,7 +21,7 @@ rm(list = ls())
 
 ## B TIMES BOOTSTRAP
 
-B <- 2      
+B <- 1000
 
 ## HIDE PROGRESS BAR IN THE FUNCITON
 
