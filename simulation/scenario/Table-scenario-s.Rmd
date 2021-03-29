@@ -1,5 +1,5 @@
 ---
-title: "Scenario"
+title: "The scenarios that used in the simulation"
 author: "Yi"
 date: "`r format(Sys.Date())`"
 output:
@@ -13,27 +13,29 @@ editor_options:
 library(knitr)
 opts_chunk$set(echo = FALSE, warning = FALSE, error = TRUE, message=FALSE, comment="")
 
-options(knitr.kable.NA = ".", digits = 3)
+options(knitr.kable.NA = ".")
 
+select <- c(1:4, 9,10, 15,16)
 ```
 
-# 0.5b
+# 0.5b, c11 = c22
 
 ```{r}
-load("set-0.5b.RData")
-kable(set[[3]])
+load("18rows/set-0.5b-all.RData")
+kable(set[[1]][select, -1], digits = 2)
 ```
 
-# 1.5b
+
+# 0.5b, c11 = 1, c22 = 0
 
 ```{r}
-load("set-1.5b.RData")
-kable(set[[3]])
+load("18rows/set-0.5b-all-c10.RData")
+kable(set[[1]][select, -1], digits = 2)
 ```
 
-# 0.5b-c
+# 0.5b, c11 = 0, c22 = 1
 
 ```{r}
-load("set-0.5b-c.RData")
-kable(set[[3]])
+load("18rows/set-0.5b-all-c01.RData")
+kable(set[[1]][select, -1], digits = 2)
 ```

@@ -1,19 +1,58 @@
-# DTA2021-supp
+# DTA-META-SA CODE
 
 Supplementary Materials
 
 
 This folder contains reproducible R codes of simulation studies and re-analysis of the example data.
 
-In simu-code:
+Before running the codes, please check whether you have installed the required R packages:
 
-Step 1: Run scenario.R firstly, and produce 3 scenarios RData;
+- "dtametasa"; if it is not installed, please install it from GitHub `devtools::install_github("meta2020/dtametasa")`. 
+(See details in https://meta2020.github.io/dtametasa/)
 
-Step 2: create 2 folders named DATA1 and DATA2 under sim-code folder, for saving the produced simulation results in RData.
+- "mvmeta", "foreach", "parallel", "doSNOW", "doRNG", "latex2exp", "kable; 
+if it is not installed, please install from R CRAN `install.packages("package_name")`.
+ 
 
-Step 3: Run sim.rep.R file to produce simulation RData;
+## example/
 
-Step 4: Use latex-xxx.R file to reproduce the results in the article.
+- data-IVD.csv: Example 1 data
+
+- data-Lym.csv: Example 2 data
+
+- examples.R: reproduce codes for figure and appendix table 
+
+
+## simulation/
+
+- 1000-times-sim.R: 1000 times simulation 
+
+### scenario/ 
+
+- Readme.txt: notations
+
+- scenario-all.R: create all scenarios in the simulation
+
+- cal-p.R: to calculate alpha in the scenarios
+
+- Table-scenario-s.Rmd: show the used scenarios
+
+- 18rows/: scenarios RData
+
+
+### simfun/
+
+- simu-sa-4models.R: one-time simulation with outputs of 4 models' results
+
+	* 2 proposed models, 2 reitsma models
+
+- simu-sa-5models.R: one-time simulation with outputs of 5 models' results
+
+	* 3 proposed models, 2 reitsma models
+
+### res/
+
+- 3 folders to save the simulation results
 
 
 

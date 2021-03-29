@@ -13,13 +13,27 @@ library("parallel")
 library("doSNOW")
 library("doRNG")
 
-## 1. LOAD ONR-TIME SIMULATION FUNCTION 
+
+
+## 1. LOAD ONR-TIME SIMULATION FUNCTION AND SCENARIOS
+
 
 # source("simfun/simu-sa-4models.R")
+
+# load("scenario/18rows/set-0.5b-all.RData")
+# folder1 <- "res/DT-pkg-0.5b-all"
+
+
 # source("simfun/simu-sa-5models.R")
 
+# load("scenario/18rows/set-0.5b-all-c10.RData")
+# folder2 <- "res/DT-pkg-0.5b-all-c10"
 
-## 2. PREPARATION
+# load("scenario/18rows/set-0.5b-all-c01.RData")
+# folder3 <- "res/DT-pkg-0.5b-all-c01"
+
+
+## 2. 1000 TIMES REPEAT
 
 re <- 1000
 
@@ -29,13 +43,7 @@ doSNOW::registerDoSNOW(cl)
 
 set.seed(2021)
 
-## 3. LOAD SCENARIOS
 
-# load("scenario/18rows/set-0.5b-all.RData")
-# load("scenario/18rows/set-0.5b-all-c10.RData")
-# load("scenario/18rows/set-0.5b-all-c01.RData")
-
-  
   for(list.n in c(1:3)){  ## i list  # Sample Size
     
     for(row.n in c(1:8)){ ## j row  # SCENARIO 
@@ -49,7 +57,7 @@ set.seed(2021)
              b.interval = c(0,2),
              a.interval = c(-3,3))
       }
-      save(DATA, file = paste0("res/DT-pkg-0.5b-all-c01/sim_l", list.n, "_r", row.n, ".RData"))
+      save(DATA, file = paste0(folder1, "/sim_l", list.n, "_r", row.n, ".RData"))  
     }
   }
 
