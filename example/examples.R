@@ -1,6 +1,8 @@
 ##******************************************************************************
 ##
 ## EXAMPLES: IVD DATA AND LYMNODE DATA
+##
+## ATTENTION: THIS MAY BE TIME CONSUMING
 ## 
 ## REQUIRED PACKAGES: dtametasa, latex2exp
 ##

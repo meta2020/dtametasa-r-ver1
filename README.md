@@ -1,7 +1,5 @@
 # DTA-META-SA CODE
 
-Supplementary Materials
-
 
 This folder contains reproducible R codes of simulation studies and re-analysis of the example data.
 
@@ -26,6 +24,8 @@ if it is not installed, please install from R CRAN `install.packages("package_na
 ## simulation/
 
 - 1000-times-sim.R: 1000 times simulation 
+
+- xx.Rmd files: reproducible tables and figures 
 
 ### scenario/ 
 
