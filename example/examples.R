@@ -8,11 +8,11 @@ rm(list = ls())
 
 # 1. READ DATA ----
 
-## IVD
+## IVD DATA
 
-data<- read.csv("data-IVD.csv")
+# data<- read.csv("data-IVD.csv")
 
-## LYMNODE
+## OR, LYMNODE DATA
 
 # data<- read.csv("data-Lymph.csv")
 
