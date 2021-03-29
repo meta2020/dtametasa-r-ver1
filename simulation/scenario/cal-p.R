@@ -12,19 +12,18 @@ library("doSNOW")
 library("doRNG")
 
 
-## pdata FUNCTION ----
-
-#source("../simfun/fun-sim.pdata.R")
-
-
 # sETTINGS ----
 
-re <- 1000
+re <- 2
 
 
 # CALCULATE ALPHAS ----
 
-#load("scenarioset-0.5b-c.RData")
+## LOAD SCENARIOS
+
+load("18rows/set-0.5b-all.RData")
+load("18rows/set-0.5b-all-c10.RData")
+load("18rows/set-0.5b-all-c01.RData")
 
 ##******************************************************************************
 ##
@@ -33,8 +32,6 @@ re <- 1000
 ##******************************************************************************
 
 b  <- set[[1]][1,9]
-#b  <- 1.5
-#b  <- 100
 
 
 fa <- function(a) mean(pnorm(a + b*pdata$t.clnDOR)) - 0.7
@@ -65,7 +62,7 @@ for(i in 1:18){
 
 parallel::stopCluster(cl)
 
-
+a
 
 
 ##******************************************************************************
@@ -84,7 +81,7 @@ set.seed(2021)
 
 p <- NULL
 
-for(i in 1:8){
+for(i in 1:18){
   
   p1 <- foreach(r=1:re, .combine = "c")  %dorng%  {
     
@@ -101,4 +98,4 @@ for(i in 1:8){
 
 parallel::stopCluster(cl)
 
-
+p
