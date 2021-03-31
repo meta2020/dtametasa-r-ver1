@@ -19,11 +19,11 @@ re <- 1000
 
 # CALCULATE ALPHAS ----
 
-## LOAD SCENARIOS
+## LOAD SCENARIOS,
 
 load("18rows/set-0.5b-all.RData")
-load("18rows/set-0.5b-all-c10.RData")
-load("18rows/set-0.5b-all-c01.RData")
+# load("18rows/set-0.5b-all-c10.RData")
+# load("18rows/set-0.5b-all-c01.RData")
 
 ##******************************************************************************
 ##
