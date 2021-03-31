@@ -21,9 +21,9 @@ re <- 1000
 
 ## LOAD SCENARIOS,
 
-load("18rows/set-0.5b-all.RData")
+# load("18rows/set-0.5b-all.RData")
 # load("18rows/set-0.5b-all-c10.RData")
-# load("18rows/set-0.5b-all-c01.RData")
+load("18rows/set-0.5b-all-c01.RData")
 
 ##******************************************************************************
 ##
@@ -49,7 +49,7 @@ for(i in 1:18){
   
 	a1 <- foreach(r=1:re, .combine = "c")  %dorng%  {
 		
-		pdata <- sim.pdata(set[[3]][i,1:8])
+		pdata <- dtametasa::sim.pdata(set[[1]][i,1:8])
 		
 		uniroot(fa, c(-3,3), extendInt="yes")$root
 	}
@@ -61,7 +61,7 @@ for(i in 1:18){
 
 parallel::stopCluster(cl)
 
-a
+round(a,3)
 
 
 ##******************************************************************************
