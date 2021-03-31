@@ -10,11 +10,11 @@ library("foreach")
 library("parallel")
 library("doSNOW")
 library("doRNG")
-
+source("../simfun/sim.pdata.R")
 
 # sETTINGS ----
 
-re <- 2
+re <- 1000
 
 
 # CALCULATE ALPHAS ----
@@ -43,14 +43,13 @@ ncores <- detectCores()
 cl <- makeCluster(ncores, "SOCK")
 doSNOW::registerDoSNOW(cl)
 
-
 set.seed(2021)
 
 for(i in 1:18){
   
 	a1 <- foreach(r=1:re, .combine = "c")  %dorng%  {
 		
-		pdata <- dtametasa::sim.pdata(set[[3]][i,1:8])
+		pdata <- sim.pdata(set[[3]][i,1:8])
 		
 		uniroot(fa, c(-3,3), extendInt="yes")$root
 	}
@@ -77,7 +76,6 @@ cl <- makeCluster(ncores, "SOCK")
 doSNOW::registerDoSNOW(cl)
 
 set.seed(2021)
-
 
 p <- NULL
 

@@ -6,34 +6,58 @@
 ##  
 ##******************************************************************************
 
+## 1. LOAD FUNCTIONS
+
 library("mvmeta")
-library("dtametasa")
 library("foreach")
 library("parallel")
 library("doSNOW")
 library("doRNG")
 
+source("simfun/data.pre.R")
+source("simfun/sim.pdata.R")
+source("simfun/llk.o.R")
+source("simfun/sauc.R")
+source("simfun/dtametasa.fc.R")
+source("simfun/dtametasa.rc.R")
 
 
-## 1. LOAD ONR-TIME SIMULATION FUNCTION AND SCENARIOS
 
+## 2. LOAD ONR-TIME SIMULATION FUNCTION AND SCENARIOS
+
+##******************************************************************************
+## 4 MODELS COMPARISON: PROPOSED.c, PROPOSED (c1=c2), Reitsma.O, Reistma.P
+## TRUE c is c11=c22
+## RESULTS DATA SAVE INTO FOLDER 1
+##******************************************************************************
 
 # source("simfun/simu-sa-4models.R")
-
 # load("scenario/18rows/set-0.5b-all.RData")
 # folder1 <- "res/DT-pkg-0.5b-all"
 
+##******************************************************************************
+## 5 MODELS COMPARISON: PROPOSED.c, PROPOSED (c1=1), PROPOSED (c1=c2), Reitsma.O, Reistma.P
+## TRUE c is c11=1, c22=0
+## RESULTS DATA SAVE INTO FOLDER 2
+##******************************************************************************
 
 # source("simfun/simu-sa-5models.R")
-
 # load("scenario/18rows/set-0.5b-all-c10.RData")
 # folder2 <- "res/DT-pkg-0.5b-all-c10"
 
+
+##******************************************************************************
+## 5 MODELS COMPARISON: PROPOSED.c, PROPOSED (c1=0), PROPOSED (c1=c2), Reitsma.O, Reistma.P
+## TRUE c is c11=0, c22=1
+## RESULTS DATA SAVE INTO FOLDER 3
+##******************************************************************************
+
+# source("simfun/simu-sa-5models.R")
 # load("scenario/18rows/set-0.5b-all-c01.RData")
 # folder3 <- "res/DT-pkg-0.5b-all-c01"
 
 
-## 2. 1000 TIMES REPEAT
+## 3. 1000 TIMES REPEAT
 
 re <- 1000
 
@@ -42,7 +66,6 @@ cl <- makeCluster(ncores, "SOCK")
 doSNOW::registerDoSNOW(cl)
 
 set.seed(2021)
-
 
   for(list.n in c(1:3)){  ## i list  # Sample Size
     
