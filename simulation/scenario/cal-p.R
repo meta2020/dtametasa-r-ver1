@@ -23,7 +23,7 @@ re <- 1000
 
 # load("18rows/set-0.5b-all.RData")
 # load("18rows/set-0.5b-all-c10.RData")
-load("18rows/set-0.5b-all-c01.RData")
+# load("18rows/set-0.5b-all-c01.RData")
 
 ##******************************************************************************
 ##
@@ -49,7 +49,7 @@ for(i in 1:18){
   
 	a1 <- foreach(r=1:re, .combine = "c")  %dorng%  {
 		
-		pdata <- dtametasa::sim.pdata(set[[1]][i,1:8])
+		pdata <- dtametasa::sim.pdata(set[[3]][i,1:8])
 		
 		uniroot(fa, c(-3,3), extendInt="yes")$root
 	}
@@ -61,7 +61,7 @@ for(i in 1:18){
 
 parallel::stopCluster(cl)
 
-round(a,3)
+round(a,6)
 
 
 ##******************************************************************************
@@ -83,9 +83,9 @@ for(i in 1:18){
   
   p1 <- foreach(r=1:re, .combine = "c")  %dorng%  {
     
-    pdata <- dtametasa::sim.pdata(set[[1]][i,1:8])
+    pdata <- dtametasa::sim.pdata(set[[3]][i,1:8])
     
-    mean(pnorm(set[[1]][i,10] + set[[1]][i,9]*pdata$t.clnDOR))
+    mean(pnorm(set[[3]][i,10] + set[[3]][i,9]*pdata$t.clnDOR))
     
   }
   

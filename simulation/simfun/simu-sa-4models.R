@@ -21,7 +21,7 @@ simu <- function(list.n,
                  csq, 
                  b.interval, 
                  a.interval){ 
-
+  
   
   conf <- set[[list.n]][row.n,]
 
@@ -151,7 +151,7 @@ simu <- function(list.n,
   p.e <- c(p.e, rep(NA, 3))
   
   res <- rbind(x, auc, p.e)
-  rownames(res) <- c("u1", "u2", "t11", "t22", "t12", "b", "a", "c11", "c22", "conv", "sAUC", "p.e")
+  rownames(res) <- c("u1", "u2", "t11", "t22", "t12",  "c11", "c22", "b", "a", "conv", "sAUC", "p.e")
   colnames(res) <- c("SA2", "SA1", "BRE", "ML.P")
 
   res

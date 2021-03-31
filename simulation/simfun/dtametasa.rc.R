@@ -11,11 +11,11 @@ dtametasa.rc <- function(data,
                   p,
                   correct.value = 0.5,
                   correct.type = "all",
-                  brem.init = NULL,  ## u1, u2, t1, t2, r
+                  brem.init = NULL, 
                   b.init = 1,
                   c1.sq.init = 0.5,
-                  b.interval = c(0, 2), ## SET A VALUE b.interval in [-5, 5]
-                  a.interval = c(-5, 3),
+                  b.interval = c(0, 2), 
+                  a.interval = c(-3, 3),
                   positive.r = TRUE,
                   ci.level = 0.95,
                   show.warn.message = FALSE,
@@ -145,8 +145,8 @@ dtametasa.rc <- function(data,
 
     auc <- sAUC(c(u1,u2,t22,t12))
 
-    opt$par   <- c(u1, u2, t11, t22, t12, b, a.opt, c11, c22, auc, se, sp)
-    names(opt$par) <- c("u1", "u2", "t11", "t22", "t12", "b", "a", "c11", "c22", "sauc", "se", "sp")
+    opt$par   <- c(u1, u2, t11, t22, t12, c11, c22, b, a.opt, auc, se, sp)
+    names(opt$par) <- c("u1", "u2", "t11", "t22", "t12", "c11", "c22", "b", "a", "sauc", "se", "sp")
 
     ##
     ##  show.p.hat CALC, FROM b FUNCTION ----------------------------------------

@@ -6,7 +6,9 @@
 
 
 sAUC <- function(par){
-
+  
+  par <- as.matrix(par)
+  
   sapply(1:ncol(par), function(i) {
 
     u1  <- par[1,i]

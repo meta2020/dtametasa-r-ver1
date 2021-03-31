@@ -35,9 +35,9 @@ source("simfun/dtametasa.rc.R")
 ##
 ##******************************************************************************
 
-# source("simfun/simu-sa-4models.R")
-# load("scenario/18rows/set-0.5b-all.RData")
-# folder1 <- "res/DT-pkg-0.5b-all"
+source("simfun/simu-sa-4models.R")
+load("scenario/18rows/set-0.5b-all.RData")
+folder1 <- "res/DT-pkg-0.5b-all"
 
 
 ## 3. 1000 TIMES REPEAT
@@ -52,10 +52,10 @@ set.seed(2021)
 
 for(list.n in c(1:3)){  ## i list  # Sample Size
   
-  for(row.n in c(1:8)){ ## j row  # SCENARIO 
+  for(row.n in c(1:18)){ ## j row  # SCENARIO 
     
     DATA <- foreach(r=1:re, .combine = "cbind", .packages = c("mvmeta"))  %dorng%  {
-      
+
       simu(list.n, 
            row.n,
            b0 = 1,
@@ -84,9 +84,9 @@ parallel::stopCluster(cl)
 ##
 ##******************************************************************************
 
-# source("simfun/simu-sa-5models.R")
-# load("scenario/18rows/set-0.5b-all-c10.RData")
-# folder2 <- "res/DT-pkg-0.5b-all-c10"
+source("simfun/simu-sa-5models.R")
+load("scenario/18rows/set-0.5b-all-c10.RData")
+folder2 <- "res/DT-pkg-0.5b-all-c10"
 
 ## 3. 1000 TIMES REPEAT
 
@@ -100,9 +100,9 @@ set.seed(2021)
 
 for(list.n in c(1:3)){  ## i list  # Sample Size
   
-  for(row.n in c(1:8)){ ## j row  # SCENARIO 
+  for(row.n in c(1:18)){ ## j row  # SCENARIO 
     
-    DATA <- foreach(r=1:re, .combine = "cbind", .packages = c("mvmeta", "dtametasa"))  %dorng%  {
+    DATA <- foreach(r=1:re, .combine = "cbind", .packages = c("mvmeta"))  %dorng%  {
       
       simu(list.n, 
            row.n,
@@ -130,9 +130,9 @@ parallel::stopCluster(cl)
 ##
 ##******************************************************************************
 
-# source("simfun/simu-sa-5models.R")
-# load("scenario/18rows/set-0.5b-all-c01.RData")
-# folder3 <- "res/DT-pkg-0.5b-all-c01"
+source("simfun/simu-sa-5models.R")
+load("scenario/18rows/set-0.5b-all-c01.RData")
+folder3 <- "res/DT-pkg-0.5b-all-c01"
 
 ## 3. 1000 TIMES REPEAT
 
@@ -146,9 +146,9 @@ set.seed(2021)
 
 for(list.n in c(1:3)){  ## i list  # Sample Size
   
-  for(row.n in c(1:8)){ ## j row  # SCENARIO 
+  for(row.n in c(1:18)){ ## j row  # SCENARIO 
     
-    DATA <- foreach(r=1:re, .combine = "cbind", .packages = c("mvmeta", "dtametasa"))  %dorng%  {
+    DATA <- foreach(r=1:re, .combine = "cbind", .packages = c("mvmeta"))  %dorng%  {
       
       simu(list.n, 
            row.n,
