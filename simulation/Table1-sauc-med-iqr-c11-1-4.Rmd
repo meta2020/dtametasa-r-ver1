@@ -4,11 +4,11 @@ subtitle: "Scenario 1-4"
 author: "Yi"
 date: "`r format(Sys.Date())`"
 output:
+  pdf_document: default
   html_document: 
     toc: no
     toc_depth: 5
     toc_float: true
-  pdf_document: default
 editor_options:
   chunk_output_type: console
 ---
@@ -55,10 +55,10 @@ table.sauc <- function(list.n, row.n){
   
   conv.per <- c(sum(conv1 %in% 0)/1000, sum(conv2 %in% 0)/1000, sum(conv3 %in% 0)/1000, sum(conv4 %in% 0)/1000)
 
-  X <- cbind.data.frame(sAUC = true.show, 
+  X <- cbind.data.frame(sauc = true.show*100, 
                         #MED    = t(med)*100, 
                         #IQR    = sprintf("[%.2f, %.2f]", t(iq25)*100, t(iq75)*100), 
-                        "Median [Q$_1$, Q$_3$]" = sprintf("%.2f [%.2f, %.2f]", t(med), t(iq25), t(iq75)),
+                        MedQ = sprintf("%.2f [%.2f, %.2f]", t(med)*100, t(iq25)*100, t(iq75)*100),
                         CR     = conv.per*100)
   
 
@@ -73,7 +73,7 @@ table.sauc <- function(list.n, row.n){
 
 ```{r, echo=TRUE}
 s.rdt <- "scenario/18rows/set-0.5b-all.RData"
-dt <- "res/DT-pkg-0.5b-all/"
+dt <- "res/DONE/DT-pkg-0.5b-all/"
 ```
 
 \newpage 
@@ -97,29 +97,24 @@ longtab.f <- cbind.data.frame(" " = rep(c("Proposed $({\\tilde{c}_1^2, \\tilde{c
                                           "Reitsma$_P$"),4),
                               longtab)
 rownames(longtab.f) <- NULL
-colnames(longtab.f)[3:8] <- c(paste0("Median [Q$_1$", footnote_marker_symbol(1, "latex"), 
-                                     ", Q$_3$", footnote_marker_symbol(2, "latex"), "]"),
-                              paste0("CR", footnote_marker_symbol(3, "latex")), 
-                              rep(c("Median [Q$_1$, Q$_3$]", "CR"), 2))
+colnames(longtab.f)[2:8] <- c("$SAUC_0$", rep(c("Median [Q1, Q3]", "CR"), 3))
 
 
 #sink("Tab1.tex")
 
 kbl(longtab.f, 
-    # format = "latex",
+    format = "latex",
     longtable = F, 
     booktabs = T, 
     digits =2,
     align = "r",
     linesep = c('', '', '', '\\addlinespace'),
     escape = FALSE,
-    caption = "Estimates of sAUC when $c_1^2 = c_2^2$"
+    caption = "Estimates of SAUC when $c_1^2 = c_2^2$"
     ) %>% 
-  add_header_above(c("","", "S = 25" = 2, "S = 50" = 2, "S = 200" = 2)) %>% 
+  add_header_above(c("","", "$S_P = 25$" = 2, "$S_P = 50$" = 2, "$S_P = 200$" = 2), escape = FALSE) %>% 
   kable_styling(latex_options = c("repeat_header"), full_width = FALSE) %>%
-  footnote(symbol = c("25th empirical quartile; ", 
-                      "75th empirical quartile; ",
-                      "Convergence rate. "))
+  footnote(general = "Here is a general comments of the table.")
 
  #sink()
 

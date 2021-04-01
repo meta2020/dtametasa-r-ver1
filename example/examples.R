@@ -9,6 +9,7 @@
 ##******************************************************************************
 
 rm(list = ls())
+source("simfun/")
 
 # 1. READ DATA ----
 
@@ -41,8 +42,6 @@ seed <- 2021
 ## ESTIMATION OF THE PROPOSED MODELS ----
 ##
 ##********************************************************
-
-library(dtametasa)
 
 
 ## SET SELECTION PROBABILITY p = 1, 0.9, ..., 0.1
