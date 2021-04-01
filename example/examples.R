@@ -9,7 +9,22 @@
 ##******************************************************************************
 
 rm(list = ls())
-source("simfun/")
+
+library("mvmeta")
+library("foreach")
+library("parallel")
+library("doSNOW")
+library("doRNG")
+
+
+source("simfun/llk.o.R")
+source("simfun/data.pre.R")
+source("simfun/dtametasa.fc.R")
+source("simfun/dtametasa.rc.R")
+source("simfun/sauc.ci.R")
+source("simfun/sroc.R")
+source("simfun/sauc.R")
+
 
 # 1. READ DATA ----
 
@@ -19,7 +34,7 @@ source("simfun/")
 
 ## OR, LYMNODE DATA
 
-# data<- read.csv("data-Lymph.csv")
+data<- read.csv("data-Lymph.csv")
 
 
 # 2. SET PARAMETERS IN THE MODEL ----
@@ -123,6 +138,10 @@ est10
 colnames(est01)<- paste0("p = ", p.seq)
 rownames(est01)[13:14]<- c("sauc.ci.lb", "sauc.ci.ub")
 est01
+
+
+# save.image("RData/IVD-est.RData")
+save.image("RData/Lym-est.RData")
 
 
 
@@ -261,7 +280,5 @@ par(mfrow = c(1,1))
 
 # sink()
 
-# save.image("RData/IVD-est.RData")
-# save.image("RData/Lym-est.RData")
 
 
