@@ -36,5 +36,5 @@ vignettes/*.pdf
 *.knit.md
 
 # R Environment Variables
-.Renviron
-example/simfun/.DS_Store
+*.Renviron
+*.DS_Store
