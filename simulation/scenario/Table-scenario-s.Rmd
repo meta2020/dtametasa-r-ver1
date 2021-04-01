@@ -22,7 +22,7 @@ select <- c(1:4, 9,10, 15,16)
 
 ```{r}
 load("18rows/set-0.5b-all.RData")
-kable(set[[1]][select, -1], digits = 2)
+kable(set[[1]][select, -1], digits = 3)
 ```
 
 
@@ -30,12 +30,12 @@ kable(set[[1]][select, -1], digits = 2)
 
 ```{r}
 load("18rows/set-0.5b-all-c10.RData")
-kable(set[[1]][select, -1], digits = 2)
+kable(set[[1]][select, -1], digits = 3)
 ```
 
 # 0.5b, c11 = 0, c22 = 1
 
 ```{r}
 load("18rows/set-0.5b-all-c01.RData")
-kable(set[[1]][select, -1], digits = 2)
+kable(set[[1]][select, -1], digits = 3)
 ```

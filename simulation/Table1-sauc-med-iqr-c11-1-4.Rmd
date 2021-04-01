@@ -43,11 +43,10 @@ table.sauc <- function(list.n, row.n){
   true.show<- c(set[[list.n]][row.n, 11], rep(NA, dim2-1))
 
   
-  med  <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) median(x, na.rm = TRUE))
-  iq25 <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.25, na.rm = TRUE))
-  iq75 <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.75, na.rm = TRUE))
-  #iqr  <- iq75 - iq25
-  
+  med <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) median(x, na.rm = TRUE))
+  q1  <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.25, na.rm = TRUE))
+  q3  <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.75, na.rm = TRUE))
+
   conv1 <- DATA[10,1, ]
   conv2 <- DATA[10,2, ]
   conv3 <- DATA[10,3, ]
@@ -55,10 +54,8 @@ table.sauc <- function(list.n, row.n){
   
   conv.per <- c(sum(conv1 %in% 0)/1000, sum(conv2 %in% 0)/1000, sum(conv3 %in% 0)/1000, sum(conv4 %in% 0)/1000)
 
-  X <- cbind.data.frame(sauc = true.show*100, 
-                        #MED    = t(med)*100, 
-                        #IQR    = sprintf("[%.2f, %.2f]", t(iq25)*100, t(iq75)*100), 
-                        MedQ = sprintf("%.2f [%.2f, %.2f]", t(med)*100, t(iq25)*100, t(iq75)*100),
+  X <- cbind.data.frame(sauc = true.show, 
+                        MedQ = sprintf("%.3f [%.3f, %.3f]", t(med), t(q1), t(q3)),
                         CR     = conv.per*100)
   
 
@@ -73,7 +70,7 @@ table.sauc <- function(list.n, row.n){
 
 ```{r, echo=TRUE}
 s.rdt <- "scenario/18rows/set-0.5b-all.RData"
-dt <- "res/DONE/DT-pkg-0.5b-all/"
+dt <- "res/DT-pkg-0.5b-all/"
 ```
 
 \newpage 
@@ -100,13 +97,13 @@ rownames(longtab.f) <- NULL
 colnames(longtab.f)[2:8] <- c("$SAUC_0$", rep(c("Median [Q1, Q3]", "CR"), 3))
 
 
-#sink("Tab1.tex")
+sink("Tab1.tex")
 
 kbl(longtab.f, 
     format = "latex",
     longtable = F, 
     booktabs = T, 
-    digits =2,
+    digits = 3,
     align = "r",
     linesep = c('', '', '', '\\addlinespace'),
     escape = FALSE,
@@ -114,9 +111,13 @@ kbl(longtab.f,
     ) %>% 
   add_header_above(c("","", "$S_P = 25$" = 2, "$S_P = 50$" = 2, "$S_P = 200$" = 2), escape = FALSE) %>% 
   kable_styling(latex_options = c("repeat_header"), full_width = FALSE) %>%
-  footnote(general = "Here is a general comments of the table.")
+  footnote(general = "Here, $SAUC_0$ is true SAUC; 
+Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$ is the proposed model estimating $(c_1^2, c_2^2)^T$;
+Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$ is the proposed model specified $c_1^2=c_2^2 =0.5$;
+Reitsma$_O$ is Reitsma model based on the observed studies;
+and Reitsma$_P$ is Reitsma model based on the population studies.", escape = FALSE, threeparttable = TRUE)
 
- #sink()
+ sink()
 
 
 
