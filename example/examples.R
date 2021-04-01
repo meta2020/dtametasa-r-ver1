@@ -42,8 +42,6 @@ seed <- 2021
 ##
 ##********************************************************
 
-library(dtametasa)
-
 
 ## SET SELECTION PROBABILITY p = 1, 0.9, ..., 0.1
 
