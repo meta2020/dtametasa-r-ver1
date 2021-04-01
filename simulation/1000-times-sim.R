@@ -3,9 +3,14 @@
 ## 1000 TIMES SIMULATION EXPERIMENT
 ##
 ## SAVE DATA INTO DIFFERENT FOLDERS IN RES/
+##
+## ユーザ   システム       経過  
+## 269.34      53.92    5578.97 
 ##  
 ##******************************************************************************
+rm(list = ls())
 
+t <- proc.time()
 ## 1. LOAD FUNCTIONS
 
 library("mvmeta")
@@ -166,4 +171,4 @@ parallel::stopCluster(cl)
 
 
 
-
+proc.time()-t

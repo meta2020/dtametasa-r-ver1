@@ -4,11 +4,11 @@ subtitle: "Scenario 1-4"
 author: "Yi"
 date: "`r format(Sys.Date())`"
 output:
-  pdf_document: default
   html_document: 
     toc: no
     toc_depth: 5
     toc_float: true
+  pdf_document: default
 editor_options:
   chunk_output_type: console
 ---
@@ -106,7 +106,7 @@ colnames(longtab.f)[3:8] <- c(paste0("Median [Q$_1$", footnote_marker_symbol(1, 
 #sink("Tab1.tex")
 
 kbl(longtab.f, 
-    format = "latex",
+    # format = "latex",
     longtable = F, 
     booktabs = T, 
     digits =2,
