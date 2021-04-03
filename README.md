@@ -20,9 +20,9 @@ If they are not installed, please install from R CRAN `install.packages("package
 
 - data-Lym.csv: Example 2 data
 
-- **examples.R**: reproducible codes to generate results (for double-check)
+- **examples.R: reproducible codes to generate results (for double-check)**
 
-- **PDF-ivd-lym.Rmd**: reproduce figures and table (for double-check)
+- **PDF-ivd-lym.Rmd: reproduce figures and table (for double-check)**
 
 
 ## simulation/
@@ -49,9 +49,9 @@ If they are not installed, please install from R CRAN `install.packages("package
 
 	- some self-made functions used in the simulation
 
-- 1000-times-sim.R: reproducible 1000 times simulation (for double-check)
+- **1000-times-sim.R: reproducible 1000 times simulation (for double-check)**
  
-- xx.Rmd files: reproduce tables and figures (for double-check)
+- **xx.Rmd files: reproduce tables and figures (for double-check)**
 
 
 
