@@ -3,58 +3,62 @@
 
 This folder contains reproducible R codes of simulation studies and re-analysis of the example data.
 
-Before running the codes, please check whether you have installed the required R packages:
-
-- "dtametasa"; if it is not installed, please install it from GitHub `devtools::install_github("meta2020/dtametasa")`. 
-(See details in https://meta2020.github.io/dtametasa/)
+The following packages are used in the simulation or example data
 
 - "mvmeta", "foreach", "parallel", "doSNOW", "doRNG", "latex2exp", "kable; 
-if it is not installed, please install from R CRAN `install.packages("package_name")`.
+
+If they are not installed, please install from R CRAN `install.packages("package_name")`.
  
 
 ## example/
+
+- RData/: produced results data
+
+- simfun/: self-made R functions 
 
 - data-IVD.csv: Example 1 data
 
 - data-Lym.csv: Example 2 data
 
-- examples.R: reproducible codes for figure and appendix table 
+- **examples.R**: reproducible codes to generate results (for double-check)
+
+- **PDF-ivd-lym.Rmd**: reproduce figures and table (for double-check)
 
 
 ## simulation/
 
-- 1000-times-sim.R: 1000 times simulation 
+- res/
 
-- xx.Rmd files: reproducible tables and figures 
+	- Readme.txt: notations
 
-### scenario/ 
+	- 3 folders to save the simulation results
 
-- Readme.txt: notations
+- scenario/ 
 
-- scenario-all.R: create all scenarios in the simulation
+	- 18rows/: scenarios RData
 
-- cal-p.R: to calculate alpha in the scenarios
+	- Readme.txt: notations
 
-- Table-scenario-s.Rmd: show the used scenarios
+	- scenario-all.R: create all scenarios in the simulation
 
-- 18rows/: scenarios RData
+	- cal-p.R: to calculate alpha in the scenarios
+
+	- Table-scenario-s.Rmd: show the used scenarios
+
+- simfun/
+
+	- some self-made functions used in the simulation
+
+- 1000-times-sim.R: reproducible 1000 times simulation (for double-check)
+ 
+- xx.Rmd files: reproduce tables and figures (for double-check)
 
 
-### simfun/
 
-- simu-sa-4models.R: one-time simulation with outputs of 4 models' results
 
-	* 2 proposed models, 2 reitsma models
 
-- simu-sa-5models.R: one-time simulation with outputs of 5 models' results
 
-	* 3 proposed models, 2 reitsma models
 
-### res/
-
-- Readme.txt: notations
-
-- 3 folders to save the simulation results
 
 
 
