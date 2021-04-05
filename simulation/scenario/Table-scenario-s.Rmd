@@ -33,10 +33,7 @@ id <- 1:8
 
 scen <- cbind.data.frame(id, set1, set2, set3)
 colnames(scen) <- c("No.", "$\\mu_1$", "$\\mu_2$", "$\\tau_1^2$", "$\\tau_2^2$", "$\\tau_{12}$", 
-																				"$\\rho$", "sAUC",
-         "$\\beta$", "$\\alpha_{p0.7}$", 
-         "$\\alpha_{0.7}$",
-         "$\\alpha_{0.7}$")
+                    "$\\rho$", "SAUC", "$\\beta$", "$\\alpha_{0.7}$", "$\\alpha_{0.7}$", "$\\alpha_{0.7}$")
 rownames(scen) <- NULL
 
 library(kableExtra)
