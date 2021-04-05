@@ -1,5 +1,5 @@
 ---
-title: "The scenarios that used in the simulation"
+title: "Scenario"
 author: "Yi"
 date: "`r format(Sys.Date())`"
 output:
@@ -15,27 +15,46 @@ opts_chunk$set(echo = FALSE, warning = FALSE, error = TRUE, message=FALSE, comme
 
 options(knitr.kable.NA = ".")
 
-select <- c(1:4, 9,10, 15,16)
 ```
 
-# 0.5b, c11 = c22
+# 0.5b
 
 ```{r}
 load("18rows/set-0.5b-all.RData")
-kable(set[[1]][select, -1], digits = 3)
-```
+set1 <- set[[1]][c(1:4, 9:10, 15:16), c(2:6, 12, 11, 9, 10)]
 
-
-# 0.5b, c11 = 1, c22 = 0
-
-```{r}
 load("18rows/set-0.5b-all-c10.RData")
-kable(set[[1]][select, -1], digits = 3)
-```
+set2 <- set[[1]][c(1:4, 9:10, 15:16), c(10)]
 
-# 0.5b, c11 = 0, c22 = 1
-
-```{r}
 load("18rows/set-0.5b-all-c01.RData")
-kable(set[[1]][select, -1], digits = 3)
+set3 <- set[[1]][c(1:4, 9:10, 15:16), c(10)]
+
+id <- 1:8
+
+scen <- cbind.data.frame(id, set1, set2, set3)
+colnames(scen) <- c("No.", "$\\mu_1$", "$\\mu_2$", "$\\tau_1^2$", "$\\tau_2^2$", "$\\tau_{12}$", 
+																				"$\\rho$", "sAUC",
+         "$\\beta$", "$\\alpha_{p0.7}$", 
+         "$\\alpha_{0.7}$",
+         "$\\alpha_{0.7}$")
+rownames(scen) <- NULL
+
+library(kableExtra)
+
+sink("supp-scenario.tex")
+
+kbl(scen, 
+    format = "latex",
+    longtable = F, 
+    booktabs = T, 
+    digits =3,
+    align = "r",
+    linesep = c(rep('', 3), '\\addlinespace'),
+    escape = FALSE,
+    caption = "Scenarios") %>% 
+  add_header_above(c(rep(" ",9), "$c_1^2 = c_2^2$" = 1, "$c_1^2 = 1$" = 1, "$c_1^2 = 0$" = 1),
+  																	escape = FALSE)
+
+sink()
+
 ```

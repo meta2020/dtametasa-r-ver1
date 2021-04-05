@@ -9,7 +9,7 @@ We originally considered
   * c11 denotes c1-square, c22 denotes c2-square
 
 
-We chose 8 (No. 1,2,3,4,9,10,15,16) from 18 scenarios 
+We chose 8 (No. 1,2,3,4, 9,10,15,16) from 18 scenarios 
 in 3 types of c constant vectors
 to report in our results. 
 

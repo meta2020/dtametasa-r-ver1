@@ -1,14 +1,11 @@
 ---
-title: "Appendix Table: estimates of other parameters when c11 = c22"
-subtitle: "Scenario 1-4"
+title: "Appendix Table 2-5"
+subtitle: "Estimates of other parameters when $c_1^2 = c_2^2$ for scenario 1-4"
 author: "Yi"
 date: "`r format(Sys.Date())`"
 output:
   pdf_document: default
   html_document: 
-    toc: no
-    toc_depth: 5
-    toc_float: true
 editor_options:
   chunk_output_type: console
 ---
@@ -38,20 +35,20 @@ table.pars <- function(list.n, row.n){
 
   dim(DATA) <- c(dim1, dim2, 1000)
 
-  true.par <- c(set[[list.n]][row.n, ][c(2:6, 9:10, 7)])
+  true.par <- c(set[[list.n]][row.n, ][c(2:7, 9:10)])
 
-  med  <- apply(DATA, 1:2, function(x) median(x, na.rm = TRUE))[1:8,]
-  iq25 <- apply(DATA, 1:2, function(x) quantile(x, prob =0.25, na.rm = TRUE))[1:8,]
-  iq75 <- apply(DATA, 1:2, function(x) quantile(x, prob =0.75, na.rm = TRUE))[1:8,]
+  med  <- apply(DATA, 1:2, function(x) median(x, na.rm = TRUE))[c(1:6, 8:9),]
+  iq25 <- apply(DATA, 1:2, function(x) quantile(x, prob =0.25, na.rm = TRUE))[c(1:6, 8:9),]
+  iq75 <- apply(DATA, 1:2, function(x) quantile(x, prob =0.75, na.rm = TRUE))[c(1:6, 8:9),]
 
   X <- cbind.data.frame(true.par, 
-                        med.sa2 = sprintf("%.2f [%.2f, %.2f]", med[,1], iq25[,1], iq75[,1]),
-                        med.sa1 = sprintf("%.2f [%.2f, %.2f]", med[,2], iq25[,2], iq75[,2]),
-                        med.BRE = sprintf("%.2f [%.2f, %.2f]", med[,3], iq25[,3], iq75[,3]),
-                       med.BRE.p= sprintf("%.2f [%.2f, %.2f]", med[,4], iq25[,4], iq75[,4]) )
+                        med.sa2 = sprintf("%.3f (%.3f, %.3f)", med[,1], iq25[,1], iq75[,1]),
+                        med.sa1 = sprintf("%.3f (%.3f, %.3f)", med[,2], iq25[,2], iq75[,2]),
+                        med.BRE = sprintf("%.3f (%.3f, %.3f)", med[,3], iq25[,3], iq75[,3]),
+                       med.BRE.p= sprintf("%.3f (%.3f, %.3f)", med[,4], iq25[,4], iq75[,4]) )
 
   X[6:8,4:5] <- NA
-  X[8,3] <- NA
+  X[6,3] <- NA
   X
 }
 ```
@@ -73,34 +70,34 @@ longtab <- rbind(table.pars(1, 1),
             table.pars(3, 1))
 
 PAR <- rep(c("$\\mu_1$", "$\\mu_2$", "$\\tau_1^2$", "$\\tau_2^2$", "$\\tau_{12}$", 
-         "$\\beta$", "$\\alpha_{0.7}$", "$c_1^2$"),3)
+             "$c_1^2$", "$\\beta$", "$\\alpha_{0.7}$"),3)
 
 S <- c(25, rep(NA, 7), 50, rep(NA,7), 200, rep(NA,7))
 
+colnm <- c("$S_P$","Par","True", 
+           "Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$",
+           "Proposed $({c_1^2=c_2^2})$",
+           "Reitsma$_O$", "Reitsma$_P$")
+
+
 longtab.f <- cbind.data.frame(S = S, PAR = PAR, longtab)
-
 rownames(longtab.f) <- NULL
-colnames(longtab.f)[2:7] <- c("Par",
-                              "True", 
-                              "Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$",
-                              "Proposed $({c_1^2=c_2^2})$",
-                              "Reitsma$_O$",
-                              "Reitsma$_P$")
+colnames(longtab.f) <- colnm
 
 
-# sink("supp-c11-tab1-1.tex")
+sink("supp-c11-tab1-1.tex")
 
 kbl(longtab.f, 
     format = "latex",
     longtable = F, 
     booktabs = T, 
-    digits =2,
+    digits =3,
     align = "r",
     linesep = c(rep('', 7), '\\addlinespace'),
     escape = FALSE,
     caption = "Estimates of the parameters when $c_1^2 = c_2^2$")
 
-# sink()
+ sink()
 ```
 
 # Scenario 2
@@ -111,35 +108,26 @@ longtab <- rbind(table.pars(1, 2),
             table.pars(2, 2),
             table.pars(3, 2))
 
-PAR <- rep(c("$\\mu_1$", "$\\mu_2$", "$\\tau_1^2$", "$\\tau_2^2$", "$\\tau_{12}$", 
-         "$\\beta$", "$\\alpha_{0.7}$", "$c_1^2$"),3)
 
-S <- c(25, rep(NA, 7), 50, rep(NA,7), 200, rep(NA,7))
 
 longtab.f <- cbind.data.frame(S = S, PAR = PAR, longtab)
 
 rownames(longtab.f) <- NULL
-colnames(longtab.f)[2:7] <- c("Par",
-                              "True", 
-                              "Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$",
-                              "Proposed $({c_1^2=c_2^2})$",
-                              "Reitsma$_O$",
-                              "Reitsma$_P$")
+colnames(longtab.f) <- colnm
 
-
-# sink("supp-c11-tab1-2.tex")
+sink("supp-c11-tab1-2.tex")
 
 kbl(longtab.f, 
     format = "latex",
     longtable = F, 
     booktabs = T, 
-    digits =2,
+    digits =3,
     align = "r",
     linesep = c(rep('', 7), '\\addlinespace'),
     escape = FALSE,
     caption = "Estimates of the parameters when $c_1^2 = c_2^2$")
 
-# sink()
+ sink()
 ```
 
 # Scenario 3
@@ -150,35 +138,25 @@ longtab <- rbind(table.pars(1, 3),
             table.pars(2, 3),
             table.pars(3, 3))
 
-PAR <- rep(c("$\\mu_1$", "$\\mu_2$", "$\\tau_1^2$", "$\\tau_2^2$", "$\\tau_{12}$", 
-         "$\\beta$", "$\\alpha_{0.7}$", "$c_1^2$"),3)
-
-S <- c(25, rep(NA, 7), 50, rep(NA,7), 200, rep(NA,7))
-
 longtab.f <- cbind.data.frame(S = S, PAR = PAR, longtab)
 
 rownames(longtab.f) <- NULL
-colnames(longtab.f)[2:7] <- c("Par",
-                              "True", 
-                              "Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$",
-                              "Proposed $({c_1^2=c_2^2})$",
-                              "Reitsma$_O$",
-                              "Reitsma$_P$")
+colnames(longtab.f) <- colnm
 
 
-# sink("supp-c11-tab1-3.tex")
+ sink("supp-c11-tab1-3.tex")
 
 kbl(longtab.f, 
     format = "latex",
     longtable = F, 
     booktabs = T, 
-    digits =2,
+    digits =3,
     align = "r",
     linesep = c(rep('', 7), '\\addlinespace'),
     escape = FALSE,
     caption = "Estimates of the parameters when $c_1^2 = c_2^2$")
 
-# sink()
+ sink()
 ```
 
 # Scenario 4
@@ -189,33 +167,23 @@ longtab <- rbind(table.pars(1, 4),
             table.pars(2, 4),
             table.pars(3, 4))
 
-PAR <- rep(c("$\\mu_1$", "$\\mu_2$", "$\\tau_1^2$", "$\\tau_2^2$", "$\\tau_{12}$", 
-         "$\\beta$", "$\\alpha_{0.7}$", "$c_1^2$"),3)
-
-S <- c(25, rep(NA, 7), 50, rep(NA,7), 200, rep(NA,7))
 
 longtab.f <- cbind.data.frame(S = S, PAR = PAR, longtab)
 
 rownames(longtab.f) <- NULL
-colnames(longtab.f)[2:7] <- c("Par",
-                              "True", 
-                              "Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$",
-                              "Proposed $({c_1^2=c_2^2})$",
-                              "Reitsma$_O$",
-                              "Reitsma$_P$")
+colnames(longtab.f) <- colnm
 
-
-# sink("supp-c11-tab1-4.tex")
+ sink("supp-c11-tab1-4.tex")
 
 kbl(longtab.f, 
     format = "latex",
     longtable = F, 
     booktabs = T, 
-    digits =2,
+    digits =3,
     align = "r",
     linesep = c(rep('', 7), '\\addlinespace'),
     escape = FALSE,
     caption = "Estimates of the parameters when $c_1^2 = c_2^2$")
 
-# sink()
+ sink()
 ```

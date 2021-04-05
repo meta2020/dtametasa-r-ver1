@@ -1,16 +1,11 @@
 ---
-title: "Simulation of sROC based on selected and unselected studies"
-subtitle: "Appendix Figure 1 and 2"
+title: "Appendix Figure 1 and 2"
+subtitle: "Simulation of SROC based on selected and unselected studies"
 author: "Yi"
 date: "`r format(Sys.Date())`"
 output:
-  pdf_document:
-    toc: no
-    toc_depth: '5'
+  pdf_document: default
   html_document:
-    toc: yes
-    toc_depth: 5
-    toc_float: yes
 editor_options:
   chunk_output_type: console
 ---
@@ -90,7 +85,6 @@ if(which.plot == "sa2"){
 
   x <- est[c(1,2,4,5),]
   sROC.matrix(x, add = TRUE)
-  #title(paste0("p = ", paste(sprintf("%.2f", p.seq), collapse = ", ")))
 
   
 }
@@ -98,7 +92,7 @@ if(which.plot == "sa2"){
 
 library(dtametasa)
 library(latex2exp)
-# library(tikzDevice)
+
 ```
 
 
@@ -114,7 +108,7 @@ list.n <- 2  # S = 50
 
 \newpage 
 
-# Figure 1, when c11 and c22 are parameters
+# Figure 1 When $c_1^2$ and $c_2^2$ are estimated
 
 ```{r}
 seed <- 123
@@ -186,7 +180,8 @@ par(mfrow = c(1,1))
 ```
 
 
-# Figure 2, when c11 and c22 are pre-specified
+# Figure 2 When $c_1^2$ and $c_2^2$ are assigned as true values
+
 
 ```{r}
 seed <- 123
