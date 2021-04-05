@@ -83,7 +83,7 @@ S <- c(25, rep(NA, 9), 50, rep(NA,9), 200, rep(NA,9))
 
 colnm <- c("$S_P$","Par","True", 
            "Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$",
-           "Proposed $({c_1^2=1})$", 
+           "Proposed $({c_1^2=0})$", 
            "Proposed $({c_1^2=c_2^2})$",
            "Reitsma$_O$",
            "Reitsma$_P$")
@@ -211,18 +211,6 @@ sink()
 # Scenario 5
 
 ```{r, results='asis'}
-PAR <- rep(c("sAUC", "$\\mu_1$", "$\\mu_2$", "$\\tau_1^2$", "$\\tau_2^2$", "$\\tau_{12}$", 
-         "$\\beta$", "$\\alpha_{0.7}$", "$c_1^2$", "CR"),3)
-
-S <- c(25, rep(NA, 9), 50, rep(NA,9), 200, rep(NA,9))
-
-colnm <- c("Par","True", 
-           "Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$",
-           "Proposed $({c_1^2=1})$", 
-           "Proposed $({c_1^2=c_2^2})$",
-           "Reitsma$_O$",
-           "Reitsma$_P$")
-
 
 longtab <- rbind(table.pars(1, 9),
             table.pars(2, 9),
