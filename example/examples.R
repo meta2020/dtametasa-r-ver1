@@ -22,19 +22,19 @@ source("simfun/data.pre.R")
 source("simfun/dtametasa.fc.R")
 source("simfun/dtametasa.rc.R")
 source("simfun/sauc.ci.R")
-source("simfun/sroc.R")
 source("simfun/sauc.R")
 
 
 # 1. READ DATA ----
 
-## IVD DATA
 
-# data<- read.csv("data-IVD.csv")
+## IVD DATA OR, LYMNODE DATA
 
-## OR, LYMNODE DATA
+# dtname <- "data-IVD"
 
-data<- read.csv("data-Lymph.csv")
+dtname <- "data-Lymph"
+
+data<- read.csv(paste0(dtname,".csv"))
 
 
 # 2. SET PARAMETERS IN THE MODEL ----
@@ -106,15 +106,17 @@ est10 <- sapply(p.seq, function(p) {
 })
 
 
-## ESITMATION WHEN WE SET c1 = 1, c2 = 0
+## ESITMATION WHEN WE SET c1 = 0, c2 = 1
 
 est01 <- sapply(p.seq, function(p) {
   
-  opt1 <- dtametasa.fc(data, p, c1.sq =0)
+  opt1 <- dtametasa.fc(data, p, c1.sq = 0)
   
-  sauc <- sAUC.ci(opt1, B=B, hide.progress = hide, set.seed = seed)
+  sauc.try <- try(sAUC.ci(opt1, B=B, hide.progress = hide, set.seed = seed))
   
-  c(opt1$par, sauc[[2]], sauc[[3]])
+  if(inherits(sauc.try, "try-error")) sauc.try <- list(NA, NA, NA)
+  
+  c(opt1$par, sauc.try[[2]], sauc.try[[3]])
   
 })
 
@@ -140,6 +142,5 @@ rownames(est01)[13:14]<- c("sauc.ci.lb", "sauc.ci.ub")
 est01
 
 
-# save.image("RData/IVD-est.RData")
-save.image("RData/Lym-est.RData")
+save.image(paste0("RData/",dtname,".RData"))
 

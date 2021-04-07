@@ -116,7 +116,7 @@ sAUC.ci <- function(object,
   sauc <- object$par[10]
 
   list <- list(sauc = sauc,
-               sl.sauc.t = sl.sauc.t,
+               #sl.sauc.t = sl.sauc.t,
                ci.l = max(sauc+q1*se, 0),
                ci.u = min(sauc+q2*se, 1))
 
