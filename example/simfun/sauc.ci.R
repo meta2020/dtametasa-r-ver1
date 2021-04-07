@@ -7,15 +7,16 @@
 
 sAUC.ci <- function(object,
                     B = 1000,
-                    ncores = 0, type = "SOCK",
+                    ncores = 0, 
+                    type = "SOCK",
                     ci.level = 0.95,
                     set.seed = NULL,
                     hide.progress = FALSE)
 {
-  if(!requireNamespace("foreach"))  install.packages("foreach")   else requireNamespace("foreach")
-  if(!requireNamespace("parallel")) install.packages("parallel")  else requireNamespace("parallel")
-  if(!requireNamespace("doSNOW"))   install.packages("doSNOW")    else requireNamespace("doSNOW")
-  if(!requireNamespace("doRNG"))    install.packages("doRNG")     else requireNamespace("doRNG")
+  if(!requireNamespace("foreach"))  install.packages("foreach")   else library("foreach")
+  if(!requireNamespace("parallel")) install.packages("parallel")  else library("parallel")
+  if(!requireNamespace("doSNOW"))   install.packages("doSNOW")    else library("doSNOW")
+  if(!requireNamespace("doRNG"))    install.packages("doRNG")     else library("doRNG")
 
   if(!inherits(object, "dtametasa")) stop("ONLY VALID FOR RESULTS OF dtametasa.fc OR dtametasa.rc")
 
@@ -26,8 +27,16 @@ sAUC.ci <- function(object,
   y2 <- data$y2
   v1 <- data$v1
   v2 <- data$v2
+  
+  u <- object$par[c(1,2)]
+  
+  SO <- lapply(1:S, function(s){
+    
+    matrix(c(v1[s], 0, 0, v2[s]),2,2) + matrix(object$par[c(3,5,5,4)], 2,2)
+    
+  })
 
-  if(ncores == 0) ncores <- detectCores() else ncores <- ceiling(ncores)
+  if(ncores == 0) ncores <- parallel::detectCores() else ncores <- ceiling(ncores)
 
   cl <- makeCluster(ncores, type = type)
   registerDoSNOW(cl)
@@ -43,14 +52,16 @@ sAUC.ci <- function(object,
 
 
   if(object$func.name == "dtametasa.fc"){
-
+    
     set.seed(set.seed)
     par <- foreach(r=1:B, .combine=rbind, .packages = "dtametasa", .options.snow = opts)  %dorng%  {
 
-      y1.t <- sapply(1:S, function(i) rnorm(1,y1[i],sqrt(v1[i])))
-      y2.t <- sapply(1:S, function(i) rnorm(1,y2[i],sqrt(v2[i])))
+      # y1.t <- sapply(1:S, function(i) rnorm(1,y1[i],sqrt(v1[i])))
+      # y2.t <- sapply(1:S, function(i) rnorm(1,y2[i],sqrt(v2[i])))
 
-      data.t <- data.frame(y1 = y1.t, y2 = y2.t, v1 = v1, v2 = v2)
+      Y <- t(sapply(1:S, function(i) mvtnorm::rmvnorm(1, u, SO[[i]])))
+      
+      data.t <- data.frame(y1 = Y[,1], y2 = Y[,2], v1 = v1, v2 = v2)
 
       args <- c(list(data = data.t), object$pars.info)
       sa1 <- do.call("dtametasa.fc", args)
@@ -61,14 +72,23 @@ sAUC.ci <- function(object,
 
   if(object$func.name == "dtametasa.rc"){
 
+    SO <- lapply(1:S, function(s){
+      
+      matrix(c(v1[s], 0, 0, v2[s]),2,2) + matrix(object$par[c(3,5,5,4)], 2,2)
+      
+    })
+    
     set.seed(set.seed)
 
     par <- foreach(r=1:B, .combine=rbind, .packages = "dtametasa", .options.snow = opts)  %dorng%  {
 
-      y1.t <- sapply(1:S, function(i) rnorm(1,y1[i], sqrt(v1[i])))
-      y2.t <- sapply(1:S, function(i) rnorm(1,y2[i], sqrt(v2[i])))
+      # y1.t <- sapply(1:S, function(i) rnorm(1,y1[i], sqrt(v1[i])))
+      # y2.t <- sapply(1:S, function(i) rnorm(1,y2[i], sqrt(v2[i])))
 
-      data.t <- data.frame(y1 = y1.t, y2 = y2.t, v1 = v1, v2 = v2)
+      Y <- t(sapply(1:S, function(i) mvtnorm::rmvnorm(1, u, SO[[i]])))
+      
+      data.t <- data.frame(y1 = Y[,1], y2 = Y[,2], v1 = v1, v2 = v2)
+      
       args <- c(list(data = data.t), object$pars.info)
       opt2.t <- do.call("dtametasa.rc", args)
       opt2.t$par[c(1,2,4,5, 10)]
@@ -83,24 +103,23 @@ sAUC.ci <- function(object,
   sauc.t   <- PAR[, 5]
 
   n <- length(sauc.t)
-  se <- (n-1)/n * sd(sauc.t, na.rm = TRUE)
+  
+  var1 <- sqrt((n-1)/n * var(sauc.t, na.rm = TRUE))
+  
+  se <- sqrt(var1)
+  
   sl.sauc.t <- (sauc.t - mean(sauc.t, na.rm = TRUE))/se
 
-  s.sauc.r <- order(sl.sauc.t)
-  #PAR.r <- PAR[, s.sauc.r]
-
-  s.sauc.t <- sort(sl.sauc.t)
-
-  q1 <- quantile(s.sauc.t, probs = (1-ci.level)/2, na.rm = TRUE)
-  q2 <- quantile(s.sauc.t, probs = 1-(1-ci.level)/2, na.rm = TRUE)
+  q1 <- quantile(sl.sauc.t, probs = (1-ci.level)/2, na.rm = TRUE)
+  q2 <- quantile(sl.sauc.t, probs = 1-(1-ci.level)/2, na.rm = TRUE)
 
   sauc <- object$par[10]
 
   list <- list(sauc = sauc,
-       ci.l = max(sauc+q1*se, 0),
-       ci.u = min(sauc+q2*se, 1),
-       bootstrap.par  = PAR,
-       cluster = cl)
+               sl.sauc.t = sl.sauc.t,
+               ci.l = max(sauc+q1*se, 0),
+               ci.u = min(sauc+q2*se, 1))
+
 
 
   class(list) <- "sROC.ci"
