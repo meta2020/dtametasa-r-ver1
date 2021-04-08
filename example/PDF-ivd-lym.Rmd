@@ -112,9 +112,9 @@ par(mfrow = c(1,1))
 load("RData/IVD-est.RData")
 load("RData/Lym-est.RData")
 
-setEPS(width = 10, height = 10)
+# setEPS(width = 10, height = 10)
 # postscript("ivd-app.eps")
-postscript("lym-app.eps")
+# postscript("lym-app.eps")
 
 par(mfrow = c(2,2))
 

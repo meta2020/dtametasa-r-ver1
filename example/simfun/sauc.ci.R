@@ -64,8 +64,9 @@ sAUC.ci <- function(object,
       data.t <- data.frame(y1 = Y[,1], y2 = Y[,2], v1 = v1, v2 = v2)
 
       args <- c(list(data = data.t), object$pars.info)
-      sa1 <- do.call("dtametasa.fc", args)
-      sa1$par[c(1,2,4,5, 10)]
+      sa1 <- try(do.call("dtametasa.fc", args), silent = TRUE)
+      if (!inherits(sa1,"try-error")) sa1$par[c(1,2,4,5, 10)] else rep(NA, 5)
+      
 
     }
   }
@@ -90,8 +91,8 @@ sAUC.ci <- function(object,
       data.t <- data.frame(y1 = Y[,1], y2 = Y[,2], v1 = v1, v2 = v2)
       
       args <- c(list(data = data.t), object$pars.info)
-      opt2.t <- do.call("dtametasa.rc", args)
-      opt2.t$par[c(1,2,4,5, 10)]
+      sa2 <- try(do.call("dtametasa.fc", args), silent = TRUE)
+      if (!inherits(sa2,"try-error")) sa1$par[c(1,2,4,5, 10)] else rep(NA, 5)
 
   }
   }

@@ -112,9 +112,7 @@ est01 <- sapply(p.seq, function(p) {
   
   opt1 <- dtametasa.fc(data, p, c1.sq = 0)
   
-  sauc.try <- try(sAUC.ci(opt1, B=B, hide.progress = hide, set.seed = seed))
-  
-  if(inherits(sauc.try, "try-error")) sauc.try <- list(NA, NA, NA)
+  sauc.try <- sAUC.ci(opt1, B=B, hide.progress = hide, set.seed = seed)
   
   c(opt1$par, sauc.try[[2]], sauc.try[[3]])
   
