@@ -3,8 +3,8 @@ title: 'Example:IVD and Lymnode'
 author: "Yi"
 date: "`r format(Sys.Date())`"
 output:
-  pdf_document:
   html_document:
+  pdf_document:
 editor_options:
   chunk_output_type: console
 #classoption: landscape
@@ -27,8 +27,11 @@ source("simfun/sroc.R")
 ## Plot
 
 ```{r}
-load("RData/IVD-est.RData")
-load("RData/Lym-est.RData")
+# load("RData/IVD-est.RData")
+# load("RData/Lym-est.RData")
+
+load("RData/data-IVD.RData")
+# load("RData/data-Lymph.RData")
 
 se <- data$TP/(data$TP+data$FN)
 sp <- data$TN/(data$TN+data$FP)
@@ -109,8 +112,8 @@ par(mfrow = c(1,1))
 
 ```{r}
 
-load("RData/IVD-est.RData")
-load("RData/Lym-est.RData")
+# load("RData/IVD-est.RData")
+# load("RData/Lym-est.RData")
 
 # setEPS(width = 10, height = 10)
 # postscript("ivd-app.eps")
@@ -166,7 +169,7 @@ title("(d)", adj = 0, font.main = 1)
 
 par(mfrow = c(1,1))
 
-dev.off()
+# dev.off()
 ```
 
 \newpage 
@@ -176,7 +179,7 @@ dev.off()
 ```{r}
 
 # load("RData/IVD-est.RData")
-load("RData/Lym-est.RData")
+# load("RData/Lym-est.RData")
 
 reform.est <- function(est){
 
@@ -218,10 +221,10 @@ tb1[32:40, 7] <- "0"
 tb1[32:40, 8] <- "1"
 
 # sink("tb-ivd-1.tex")
-sink("tb-lym-1.tex")
+# sink("tb-lym-1.tex")
 
 kbl(tb1, 
-    format = "latex",
+    # format = "latex",
     longtable = F, 
     booktabs = T, 
     digits =2 ,
@@ -230,7 +233,7 @@ kbl(tb1,
     escape = FALSE,
     caption = "data-1")
 
-sink()
+# sink()
 
 ```
 

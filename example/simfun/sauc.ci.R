@@ -54,7 +54,7 @@ sAUC.ci <- function(object,
   if(object$func.name == "dtametasa.fc"){
     
     set.seed(set.seed)
-    par <- foreach(r=1:B, .combine=rbind, .packages = "dtametasa", .options.snow = opts)  %dorng%  {
+    par <- foreach(r=1:B, .combine=rbind, .options.snow = opts, .export = c("dtametasa.fc", "llk.o", "sAUC"))  %dorng%  {
 
       # y1.t <- sapply(1:S, function(i) rnorm(1,y1[i],sqrt(v1[i])))
       # y2.t <- sapply(1:S, function(i) rnorm(1,y2[i],sqrt(v2[i])))
@@ -72,16 +72,10 @@ sAUC.ci <- function(object,
   }
 
   if(object$func.name == "dtametasa.rc"){
-
-    SO <- lapply(1:S, function(s){
-      
-      matrix(c(v1[s], 0, 0, v2[s]),2,2) + matrix(object$par[c(3,5,5,4)], 2,2)
-      
-    })
     
     set.seed(set.seed)
 
-    par <- foreach(r=1:B, .combine=rbind, .packages = "dtametasa", .options.snow = opts)  %dorng%  {
+    par <- foreach(r=1:B, .combine=rbind, .options.snow = opts, .export = c("dtametasa.rc", "llk.o", "sAUC"))  %dorng%  {
 
       # y1.t <- sapply(1:S, function(i) rnorm(1,y1[i], sqrt(v1[i])))
       # y2.t <- sapply(1:S, function(i) rnorm(1,y2[i], sqrt(v2[i])))
@@ -91,8 +85,8 @@ sAUC.ci <- function(object,
       data.t <- data.frame(y1 = Y[,1], y2 = Y[,2], v1 = v1, v2 = v2)
       
       args <- c(list(data = data.t), object$pars.info)
-      sa2 <- try(do.call("dtametasa.fc", args), silent = TRUE)
-      if (!inherits(sa2,"try-error")) sa1$par[c(1,2,4,5, 10)] else rep(NA, 5)
+      sa2 <- try(do.call("dtametasa.rc", args), silent = FALSE)
+     if (!inherits(sa2,"try-error")) sa2$par[c(1,2,4,5, 10)] else rep(NA, 5)
 
   }
   }
@@ -103,7 +97,7 @@ sAUC.ci <- function(object,
   PAR <- as.matrix(par)
   sauc.t   <- PAR[, 5]
 
-  n <- length(sauc.t)
+  n <- sum(!is.na(sauc.t))
   
   var1 <- sqrt((n-1)/n * var(sauc.t, na.rm = TRUE))
   

@@ -41,7 +41,7 @@ data<- read.csv(paste0(dtname,".csv"))
 
 ## B TIMES BOOTSTRAP
 
-B <- 1000
+B <- 2000
 
 ## HIDE PROGRESS BAR IN THE FUNCITON
 
