@@ -59,9 +59,11 @@ sAUC.ci <- function(object,
       # y1.t <- sapply(1:S, function(i) rnorm(1,y1[i],sqrt(v1[i])))
       # y2.t <- sapply(1:S, function(i) rnorm(1,y2[i],sqrt(v2[i])))
 
-      Y <- t(sapply(1:S, function(i) mvtnorm::rmvnorm(1, u, SO[[i]])))
+      # Y <- t(sapply(1:S, function(i) mvtnorm::rmvnorm(1, u, SO[[i]])))
 
-      data.t <- data.frame(y1 = Y[,1], y2 = Y[,2], v1 = v1, v2 = v2)
+      # data.t <- data.frame(y1 = Y[,1], y2 = Y[,2], v1 = v1, v2 = v2)
+      
+      data.t <- data[sample(S, S, replace = TRUE), ]
 
       args <- c(list(data = data.t), object$pars.info)
       sa1 <- try(do.call("dtametasa.fc", args), silent = TRUE)
@@ -80,10 +82,12 @@ sAUC.ci <- function(object,
       # y1.t <- sapply(1:S, function(i) rnorm(1,y1[i], sqrt(v1[i])))
       # y2.t <- sapply(1:S, function(i) rnorm(1,y2[i], sqrt(v2[i])))
 
-      Y <- t(sapply(1:S, function(i) mvtnorm::rmvnorm(1, u, SO[[i]])))
+      # Y <- t(sapply(1:S, function(i) mvtnorm::rmvnorm(1, u, SO[[i]])))
 
-      data.t <- data.frame(y1 = Y[,1], y2 = Y[,2], v1 = v1, v2 = v2)
+      # data.t <- data.frame(y1 = Y[,1], y2 = Y[,2], v1 = v1, v2 = v2)
 
+      data.t <- data[sample(S, S, replace = TRUE), ]
+      
       args <- c(list(data = data.t), object$pars.info)
       sa2 <- try(do.call("dtametasa.rc", args), silent = FALSE)
      if (!inherits(sa2,"try-error")) sa2$par[c(1,2,4,5, 10)] else rep(NA, 5)
