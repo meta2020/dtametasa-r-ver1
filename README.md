@@ -1,4 +1,4 @@
-# DTA-META-SA CODE
+# DTA-META-SA R CODE
 
 
 This folder contains reproducible R codes of simulation studies and re-analysis of the example data.
