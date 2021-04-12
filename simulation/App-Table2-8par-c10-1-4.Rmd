@@ -73,11 +73,11 @@ longtab <- rbind(table.pars(1, 1),
             table.pars(3, 1))
 
 PAR <- rep(c("$\\mu_1$", "$\\mu_2$", "$\\tau_1^2$", "$\\tau_2^2$", "$\\tau_{12}$", 
-         "$c_1^2$", "$\\beta$", "$\\alpha_{0.7}$"),3)
+         "$c_1^2$", "$\\beta$", "$\\alpha$"),3)
 
 S <- c(25, rep(NA, 7), 50, rep(NA,7), 200, rep(NA,7))
-colnm <- c("$S_P$","Par","True", 
-           "Proposed $(\\tilde{c}_1^2, \\tilde{c}_2^2)$",
+colnm <- c("$S$","Par","True", 
+           "Proposed $(\\hat{c}_1^2, \\hat{c}_2^2)$",
            "Proposed $(c_1^2=1)$",
            "Proposed $(c_1^2=c_2^2)$",
            "Reitsma$_O$", "Reitsma$_P$")

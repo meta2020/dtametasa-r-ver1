@@ -11,45 +11,24 @@
 rm(list = ls())
 
 library("mvmeta")
-library("foreach")
-library("parallel")
-library("doSNOW")
-library("doRNG")
-
 
 source("simfun/llk.o.R")
 source("simfun/data.pre.R")
 source("simfun/dtametasa.fc.R")
 source("simfun/dtametasa.rc.R")
-source("simfun/sauc.ci.R")
 source("simfun/sauc.R")
 
 
 # 1. READ DATA ----
 
 
-## IVD DATA OR, LYMNODE DATA
+## IVD DATA OR, LYMNODE DATA *******
 
-# dtname <- "data-IVD"
+dtname <- "data-IVD"
 
-dtname <- "data-Lymph"
+# dtname <- "data-Lymph"
 
 data<- read.csv(paste0(dtname,".csv"))
-
-
-# 2. SET PARAMETERS IN THE MODEL ----
-
-## B TIMES BOOTSTRAP
-
-B <- 2000
-
-## HIDE PROGRESS BAR IN THE FUNCITON
-
-hide <- TRUE
-
-## SET SEED
-
-seed <- 2021
 
 
 ##********************************************************
@@ -70,11 +49,8 @@ est2 <- sapply(p.seq, function(p) {
   
   ## ESTIMATES OF THE PARAMETERS
   opt2 <- dtametasa.rc(data, p)
-  
-  ## CONFIDENCE INTERVALS (CI) 
-  sauc <- sAUC.ci(opt2, B=B, hide.progress = hide, set.seed = seed)
-  
-  c(opt2$par, sauc[[2]], sauc[[3]])
+
+  opt2$par
   
 })
 
@@ -86,9 +62,7 @@ est11 <- sapply(p.seq, function(p) {
   
   opt1 <- dtametasa.fc(data, p)
   
-  sauc <- sAUC.ci(opt1, B=B, hide.progress = hide, set.seed = seed)
-  
-  c(opt1$par, sauc[[2]], sauc[[3]])
+  opt1$par
   
   })
 
@@ -99,9 +73,8 @@ est10 <- sapply(p.seq, function(p) {
   
   opt1 <- dtametasa.fc(data, p, c1.sq =1)
   
-  sauc <- sAUC.ci(opt1, B=B, hide.progress = hide, set.seed = seed)
-  
-  c(opt1$par, sauc[[2]], sauc[[3]])
+
+  opt1$par
   
 })
 
@@ -112,9 +85,7 @@ est01 <- sapply(p.seq, function(p) {
   
   opt1 <- dtametasa.fc(data, p, c1.sq = 0)
   
-  sauc.try <- sAUC.ci(opt1, B=B, hide.progress = hide, set.seed = seed)
-  
-  c(opt1$par, sauc.try[[2]], sauc.try[[3]])
+  opt1$par
   
 })
 
@@ -122,23 +93,19 @@ est01 <- sapply(p.seq, function(p) {
 ## ALL RESULTS
 
 colnames(est2)<- paste0("p = ", p.seq)
-rownames(est2)[13:14]<- c("sauc.ci.lb", "sauc.ci.ub")
 est2
 
 colnames(est11)<- paste0("p = ", p.seq)
-rownames(est11)[13:14]<- c("sauc.ci.lb", "sauc.ci.ub")
 est11
 
 
 colnames(est10)<- paste0("p = ", p.seq)
-rownames(est10)[13:14]<- c("sauc.ci.lb", "sauc.ci.ub")
 est10
 
 
 colnames(est01)<- paste0("p = ", p.seq)
-rownames(est01)[13:14]<- c("sauc.ci.lb", "sauc.ci.ub")
 est01
 
 
-save.image(paste0("RData/",dtname,".RData"))
+save.image(paste0("RData/", dtname,".RData"))
 

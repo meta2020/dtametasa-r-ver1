@@ -8,6 +8,7 @@ output:
   html_document: 
 editor_options:
   chunk_output_type: console
+classoption: landscape
 ---
 
 ```{r setup, include=FALSE}
@@ -85,7 +86,7 @@ for(row.n in c(1,2,3,4)){
   
 }
 
-longtab.f <- cbind.data.frame(" " = rep(c("Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$",
+longtab.f <- cbind.data.frame(" " = rep(c("Proposed $({\\hat{c}_1^2, \\hat{c}_2^2})$",
                                           "Proposed $({c_1^2=c_2^2})$",
                                           "Reitsma$_O$",
                                           "Reitsma$_P$"),4),
@@ -106,10 +107,10 @@ kbl(longtab.f,
     escape = FALSE,
     caption = "Estimates of SAUC when $c_1^2 = c_2^2$"
     ) %>% 
-  add_header_above(c("","", "$S_P = 25$" = 2, "$S_P = 50$" = 2, "$S_P = 200$" = 2), escape = FALSE) %>% 
+  add_header_above(c("","", "$S = 25$" = 2, "$S = 50$" = 2, "$S = 200$" = 2), escape = FALSE) %>% 
   kable_styling(latex_options = c("repeat_header"), full_width = FALSE) %>%
-  footnote("Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$ is the proposed model estimating $(c_1^2, c_2^2)^T$;
-Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$ is the proposed model specified $c_1^2=c_2^2 =0.5$;
+  footnote("Proposed $({\\hat{c}_1^2, \\hat{c}_2^2})$ is the proposed model estimating $(c_1^2, c_2^2)^T$;
+Proposed $({\\hat{c}_1^2, \\hat{c}_2^2})$ is the proposed model specified $c_1^2=c_2^2 =0.5$;
 Reitsma$_O$ is Reitsma model based on the observed studies;
 and Reitsma$_P$ is Reitsma model based on the population studies.", escape = FALSE, threeparttable = TRUE)
 

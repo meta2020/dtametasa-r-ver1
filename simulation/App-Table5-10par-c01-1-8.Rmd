@@ -77,12 +77,12 @@ dt <- "res/DT-pkg-0.5b-all-c01/"
 
 ```{r, results='asis'}
 PAR <- rep(c("SAUC", "$\\mu_1$", "$\\mu_2$", "$\\tau_1^2$", "$\\tau_2^2$", "$\\tau_{12}$", 
-             "$c_1^2$", "$\\beta$", "$\\alpha_{0.7}$", "CR"),3)
+             "$c_1^2$", "$\\beta$", "$\\alpha$", "CR"),3)
 
 S <- c(25, rep(NA, 9), 50, rep(NA,9), 200, rep(NA,9))
 
-colnm <- c("$S_P$","Par","True", 
-           "Proposed $({\\tilde{c}_1^2, \\tilde{c}_2^2})$",
+colnm <- c("$S$","Par","True", 
+           "Proposed $({\\hat{c}_1^2, \\hat{c}_2^2})$",
            "Proposed $({c_1^2=0})$", 
            "Proposed $({c_1^2=c_2^2})$",
            "Reitsma$_O$",

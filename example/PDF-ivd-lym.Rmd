@@ -1,10 +1,11 @@
 ---
-title: 'Example:IVD and Lymnode'
+title: 'Example : IVD and Lymnode'
+subtitle: 'Figure 1-2 and Table S26-27'
 author: "Yi"
 date: "`r format(Sys.Date())`"
 output:
-  html_document:
   pdf_document:
+  html_document:
 editor_options:
   chunk_output_type: console
 #classoption: landscape
@@ -17,20 +18,17 @@ options(knitr.kable.NA = ' ')
 library(knitr)
 library(kableExtra)
 library(latex2exp)
+
 source("simfun/sroc.R")
 ```
 
 
-
-# IVD
-
 ## Plot
 
 ```{r}
-# load("RData/IVD-est.RData")
-# load("RData/Lym-est.RData")
+# PLEASE CHOOSE ONE SAVED DATA *******
 
-load("RData/data-IVD.RData")
+# load("RData/data-IVD.RData")
 # load("RData/data-Lymph.RData")
 
 se <- data$TP/(data$TP+data$FN)
@@ -51,14 +49,14 @@ plot(1-sp, se, type = "p", ylim = c(0,1), xlim = c(0,1),
 sROC.matrix(est2[c(1,2,4,5),  pts], add = TRUE)
 legend("bottomright", 
        bty='n',
-       legend = c(TeX(paste0("$p = 0.9, \\, \\tilde{c}_1^2 =", sprintf("%.3f", est2[6,2]), #round(est2[6,2],3), 
-                             ",\\, \\tilde{c}_2^2 = ", sprintf("%.3f", est2[7,2]), "$")), 
-                  TeX(paste0("$p = 0.7, \\, \\tilde{c}_1^2 =", sprintf("%.3f", est2[6,4]), 
-                             ",\\, \\tilde{c}_2^2 = ", sprintf("%.3f", est2[7,4]), "$")), 
-                  TeX(paste0("$p = 0.5, \\, \\tilde{c}_1^2 =", sprintf("%.3f", est2[6,6]), 
-                             ",\\, \\tilde{c}_2^2 = ", sprintf("%.3f", est2[7,6]), "$")), 
-                  TeX(paste0("$p = 0.3, \\, \\tilde{c}_1^2 =", sprintf("%.3f", est2[6,8]), 
-                             ",\\, \\tilde{c}_2^2 = ", sprintf("%.3f", est2[7,8]), "$"))
+       legend = c(TeX(paste0("$p = 0.9, \\, \\hat{c}_1^2 =", sprintf("%.3f", est2[6,2]), #round(est2[6,2],3), 
+                             ",\\, \\hat{c}_2^2 = ", sprintf("%.3f", est2[7, 2]), "$")), 
+                  TeX(paste0("$p = 0.7, \\, \\hat{c}_1^2 =", sprintf("%.3f", est2[6,4]), 
+                             ",\\, \\hat{c}_2^2 = ", sprintf("%.3f", est2[7,4]), "$")), 
+                  TeX(paste0("$p = 0.5, \\, \\hat{c}_1^2 =", sprintf("%.3f", est2[6,6]), 
+                             ",\\, \\hat{c}_2^2 = ", sprintf("%.3f", est2[7,6]), "$")), 
+                  TeX(paste0("$p = 0.3, \\, \\hat{c}_1^2 =", sprintf("%.3f", est2[6,8]), 
+                             ",\\, \\hat{c}_2^2 = ", sprintf("%.3f", est2[7,8]), "$"))
                   ), 
        col = col[pts], pch = 18, pt.cex = 2, cex =1.5, 
        lty = rep(1,4))
@@ -109,97 +107,32 @@ par(mfrow = c(1,1))
 # dev.off()
 ```
 
-
-```{r}
-
-# load("RData/IVD-est.RData")
-# load("RData/Lym-est.RData")
-
-# setEPS(width = 10, height = 10)
-# postscript("ivd-app.eps")
-# postscript("lym-app.eps")
-
-par(mfrow = c(2,2))
-
-
-SAUC2   <- est2[c(10, 13, 14),]
-SAUC11  <- est11[c(10, 13, 14),]
-SAUC10  <- est10[c(10, 13, 14),]
-SAUC01  <- est01[c(10, 13, 14),]
-
-
-matplot(t(SAUC2), type = "o", lty = c(1,1,1), 
-        pch = 19, col = c("black", "grey", "grey"),
-        cex = 0.5,
-        xlab = "p", ylab = "SAUC",
-        ylim = c(0,1),
-        xaxt = "n")
-axis(1, at = 1:10, labels = p.seq)
-title("(a)", adj = 0, font.main = 1)
-
-
-
-matplot(t(SAUC11), type = "o", lty = c(1,1,1), 
-        pch = 19, col = c("black", "grey", "grey"),
-        cex = 0.5,
-        xlab = "p", ylab = "SAUC",
-        ylim = c(0,1),
-        xaxt = "n")
-axis(1, at = 1:10, labels = p.seq)
-title("(b)", adj = 0, font.main = 1)
-
-matplot(t(SAUC10), type = "o", lty = c(1,1,1), 
-        pch = 19, col = c("black", "grey", "grey"),
-        cex = 0.5,
-        xlab = "p", ylab = "SAUC",
-        ylim = c(0,1),
-        xaxt = "n")
-axis(1, at = 1:10, labels = p.seq)
-title("(c)", adj = 0, font.main = 1)
-
-matplot(t(SAUC01), type = "o", lty = c(1,1,1), 
-        pch = 19, col = c("black", "grey", "grey"),
-        cex = 0.5,
-        xlab = "p", ylab = "SAUC",
-        ylim = c(0,1),
-        xaxt = "n")
-axis(1, at = 1:10, labels = p.seq)
-title("(d)", adj = 0, font.main = 1)
-
-
-par(mfrow = c(1,1))
-
-# dev.off()
-```
-
-\newpage 
-
 ## Estimates
 
 ```{r}
 
 # load("RData/IVD-est.RData")
-# load("RData/Lym-est.RData")
+load("RData/Lym-est.RData")
 
 reform.est <- function(est){
 
-# row.n <- c(10, 13,14, 11, 12)
-# tb <- t(est)
+# SAUC <- sprintf("%.3f [%.3f, %.3f]", est[10, ],est[13, ], est[14,])
 
-SAUC <- sprintf("%.3f [%.3f, %.3f]", est[10, ],est[13, ], est[14,])
+  SAUC <- sprintf("%.3f", est[10, ])
 # c    <- tb[,6:7]
 # sep  <- tb[,11:12]
+  
 est.m <- matrix(sprintf("%.3f", est[-c(10,13,14),]), ncol = 10)
 
-res <- t(rbind.data.frame(est.m, SAUC))
+res <- t(rbind.data.frame(SAUC, est.m))
 
 tb <- cbind(p.seq, res)#[, -c(8:9, 13:14, 18:19)]
 
-colnames(tb) <- c("$p$", "$\\mu_1$", "$\\mu_2$", "$\\tau_1$","$\\tau_2$","$\\tau_{12}$",
-                  "$c_1^2$", "$c_2^2$", "$\\beta$", "$\\alpha_p$", "se", "sp", 
-                  "SAUC [$95\\%$ CI]")
+colnames(tb) <- c("$p$", "SAUC", "$\\mu_1$", "$\\mu_2$", "$\\tau_1$","$\\tau_2$","$\\tau_{12}$",
+                  "$c_1^2$", "$c_2^2$", "$\\beta$", "$\\alpha_p$", "se", "sp"
+                  )
 rownames(tb) <- NULL
-tb[1,7:10] <- NA
+tb[1,8:11] <- NA
 #colnames(res) <- paste0("p = ", p.seq)
 # rownames(est)[13:14] <- c("SAUC.ci.lb", "SAUC.ci.ub")
 
@@ -214,17 +147,17 @@ tb10 <- reform.est(est10)
 tb01 <- reform.est(est01)
 
 tb1 <- rbind(tb2, tb11, tb10, tb01)
-tb1[12:20, 7:8] <- "0.5"
-tb1[22:30, 7] <- "1"
-tb1[22:30, 8] <- "0"
-tb1[32:40, 7] <- "0"
-tb1[32:40, 8] <- "1"
+tb1[12:20, 8:9] <- "0.5"
+tb1[22:30, 8] <- "1"
+tb1[22:30, 9] <- "0"
+tb1[32:40, 8] <- "0"
+tb1[32:40, 9] <- "1"
 
 # sink("tb-ivd-1.tex")
 # sink("tb-lym-1.tex")
 
 kbl(tb1, 
-    # format = "latex",
+    format = "latex",
     longtable = F, 
     booktabs = T, 
     digits =2 ,
