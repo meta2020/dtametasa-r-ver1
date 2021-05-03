@@ -32,8 +32,8 @@ source("simfun/dtametasa.rc.lit.R")
 
 source("simfun/simu-sa-5models-par.R")
 
-tset <- "t21"
-
+tset <- "t12"
+# tset <- "t0.7"
 ## 3. 1000 TIMES REPEAT
 
 re <- 1000
