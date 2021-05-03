@@ -55,16 +55,30 @@ logit.data <- function(data){
   v1 <- (1/data$TP)+(1/data$FN)
   v2 <- (1/data$TN)+(1/data$FP)
 
-  lnDOR <- y1+y2        ## log DOR
-  seDOR <- sqrt(v1+v2)  ## SE DOR
-
   data.frame(sens = sens,
              spec = spec,
              y1 = y1,
              y2 = y2,
              v1 = v1,
-             v2 = v2,
-             ldor.t = lnDOR/seDOR)
+             v2 = v2)
 
 }
+
+##
+## CALCULATE DELTA VAR-COV
+##
+
+QIQ <- function(x, u1, u2, t1, t2, r, inv.I.fun.m) { 
+  
+  sapply(1: length(x), function(i){
+    
+    Q <- c(1, -r*t1/t2, -r/t2*(qlogis(x[i])+u2), r*t1/t2^2*(qlogis(x[i])+u2), -t1/t2*(qlogis(x[i])+u2))
+    
+    (Q %*% inv.I.fun.m %*% Q)
+    
+  })
+  
+}
+
+
 

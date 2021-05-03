@@ -6,19 +6,12 @@
 
 
 llk.o <- function(par,
-                  data,
+                  y1, y2, v1, v2,
+                  n,
                   p,
                   a.interval,
-                  a.root.extendInt,
-                  show.warn.message,
-                  ...) {
-
-  n <- nrow(data)
-
-  y1 <- data$y1
-  y2 <- data$y2
-  v1 <- data$v1
-  v2 <- data$v2
+                  show.warn.message
+                  ){
 
   u1 <- par[1]
   u2 <- par[2]
@@ -64,7 +57,7 @@ llk.o <- function(par,
 
   a.p <- function(a) {sum(1/f.b(a), na.rm = TRUE) - n/p}
 
-  if (!show.warn.message) a.opt.try <- suppressWarnings(try(uniroot(a.p, a.interval, extendInt=a.root.extendInt,...), silent = TRUE)) else a.opt.try <- try(uniroot(a.p, a.interval, extendInt=a.root.extendInt), silent = FALSE)
+  if (!show.warn.message) a.opt.try <- suppressWarnings(try(uniroot(a.p, a.interval, extendInt="downX"), silent = TRUE)) else a.opt.try <- try(uniroot(a.p, a.interval, extendInt="downX"), silent = TRUE)
 
   a.opt <- a.opt.try$root
 

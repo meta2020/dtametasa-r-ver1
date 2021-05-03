@@ -10,7 +10,7 @@ library("foreach")
 library("parallel")
 library("doSNOW")
 library("doRNG")
-source("../simfun/sim.pdata.R")
+source("../../simfun/sim.pdata.R")
 
 # sETTINGS ----
 
@@ -19,11 +19,6 @@ re <- 1000
 
 # CALCULATE ALPHAS ----
 
-## LOAD SCENARIOS,
-
-# load("18rows/set-0.5b-all.RData")
-# load("18rows/set-0.5b-all-c10.RData")
-# load("18rows/set-0.5b-all-c01.RData")
 
 ##******************************************************************************
 ##
@@ -45,11 +40,11 @@ doSNOW::registerDoSNOW(cl)
 
 set.seed(2021)
 
-for(i in 1:18){
+for(i in 1:6){
   
 	a1 <- foreach(r=1:re, .combine = "c")  %dorng%  {
 		
-		pdata <- dtametasa::sim.pdata(set[[3]][i,1:8])
+		pdata <- sim.pdata(set[[3]][i,1:8])
 		
 		uniroot(fa, c(-3,3), extendInt="yes")$root
 	}
@@ -61,7 +56,8 @@ for(i in 1:18){
 
 parallel::stopCluster(cl)
 
-round(a,6)
+a
+
 
 
 ##******************************************************************************
@@ -79,11 +75,11 @@ set.seed(2021)
 
 p <- NULL
 
-for(i in 1:18){
+for(i in 1:6){
   
   p1 <- foreach(r=1:re, .combine = "c")  %dorng%  {
     
-    pdata <- dtametasa::sim.pdata(set[[3]][i,1:8])
+    pdata <- sim.pdata(set[[3]][i,1:8])
     
     mean(pnorm(set[[3]][i,10] + set[[3]][i,9]*pdata$t.clnDOR))
     

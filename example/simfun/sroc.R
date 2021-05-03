@@ -5,7 +5,7 @@
 ##******************************************************************************
 
 
-sROC <- function(object,
+SROC <- function(object,
                  add = FALSE,
                  sroc.col = 1,
                  sroc.lty = 1,
@@ -44,7 +44,7 @@ sROC <- function(object,
 
 
 
-sROC.matrix <- function(par,  ## u1 u2 t12 t22
+SROC.matrix2 <- function(par,  ## u1 u2 t12 t22
                  add = FALSE,
                  ncols = NULL,
                  sroc.lty = 1,
@@ -74,10 +74,11 @@ sROC.matrix <- function(par,  ## u1 u2 t12 t22
 
     u1  <- par[1,i]
     u2  <- par[2,i]
-    t22 <- par[3,i]
-    t12 <- par[4,i]
+    t1  <- par[3,i]
+    t2  <- par[4,i]
+    r   <- par[5,i]
 
-    roc <- function(x) plogis(u1 - (t12/t22) * (qlogis(x) + u2))
+    roc <- function(x) plogis(u1 - (t1*r/t2) * (qlogis(x) + u2))
     curve(roc, 0, 1, col = ncols[i], add = TRUE,
           lty = sroc.lty, lwd = sroc.lwd, ...)
   }

@@ -5,7 +5,7 @@
 ##******************************************************************************
 
 
-sROC <- function(object,
+SROC <- function(object,
                  add = FALSE,
                  sroc.col = 1,
                  sroc.lty = 1,
@@ -44,7 +44,7 @@ sROC <- function(object,
 
 
 
-sROC.matrix <- function(par,  ## u1 u2 t12 t22
+SROC.matrix <- function(par,  ## u1 u2 t12 t22
                  add = FALSE,
                  ncols = NULL,
                  sroc.lty = 1,

@@ -18,15 +18,16 @@ dtametasa.fc <- function(data,
                      positive.r = TRUE,
                      ci.level = 0.95,
                      show.warn.message = FALSE,
+                     plot.sroc = TRUE,
                      a.root.extendInt = "downX",
-                     ...
+                     num.var = FALSE
 ){
 
   ##
   ## INPUT: DATA PREPROCESS  ----------------------------------------------------------
   ##
 
-  if (p <=0 || p>1) stop("PLEASE MAKE SET SELECTION PROB: P in (0, 1]",  call. = FALSE)
+  if (p <=0 || p>1) stop("PLEASE SET SELECTION PROB: P in (0, 1]",  call. = FALSE)
 
   if (!any(c("y1","y1", "v1", "v2", "TP", "FN", "TN", "FP") %in% names(data))) stop("DATA' COLNAMES MUST BE 'TP/FN/TN/FP' OR 'y1/y2/v1/v2'", call. = FALSE)
 
@@ -85,9 +86,10 @@ dtametasa.fc <- function(data,
   if(positive.r) r.up <- 1 else  r.up <- eps
 
   fn <- function(par) llk.o(par = c(par[1:6], c1),
-                            data = data, p = p,
-                            a.root.extendInt = a.root.extendInt, a.interval = a.interval,
-                            show.warn.message = show.warn.message, ...)
+                            y1, y2, v1, v2, n, p,
+                            a.interval,
+                            a.root.extendInt, 
+                            show.warn.message)
 
   opt <- try(nlminb(start6,
                    fn,
@@ -97,9 +99,7 @@ dtametasa.fc <- function(data,
 
 
   if(!inherits(opt,"try-error")) {
-
-
-   
+  
     ##
     ##  OUTPUT: ALL PARAMETERS -------------------------------------------------
     ##
@@ -132,21 +132,82 @@ dtametasa.fc <- function(data,
    a.p <- function(a) { sum(1/ pnorm( (a + b * u.ldor/se.ldor) / sq ), na.rm = TRUE) - n/p }
 
     if (!show.warn.message) a.opt.try <- suppressWarnings(try(
-      uniroot(a.p, interval = a.interval, extendInt = a.root.extendInt,...),
+      uniroot(a.p, interval = a.interval, extendInt = a.root.extendInt),
       silent = TRUE)) else a.opt.try <- try(
-        uniroot(a.p, interval = a.interval, extendInt=a.root.extendInt, ...), silent = TRUE)
+        uniroot(a.p, interval = a.interval, extendInt=a.root.extendInt), silent = TRUE)
 
     a.opt <- a.opt.try$root
+    
+    ##
+    ##  HESSIANS -------------------------------------------------
+    ##
+    
+    drv.fun <- llk.ind(u1, u2, t1, t2, r, b, a.opt, c1, c2,
+                       y1, y2, v1, v2)
+    
+    hes.data <- attr(drv.fun, "hessian")
+    opt$hessian <- sapply(1:7, function(i) colSums(hes.data[,,i], na.rm = TRUE))[1:6,1:6]
+    
+    rownames(opt$hessian) <- c("u1", "u2", "t1", "t2", "r", "b")
+    colnames(opt$hessian) <- c("u1", "u2", "t1", "t2", "r", "b")
+    
+    opt$num.hessian <- numDeriv::hessian(fn, opt$par)
+    rownames(opt$num.hessian) <- c("u1", "u2", "t1", "t2", "r", "b")
+    colnames(opt$num.hessian) <- c("u1", "u2", "t1", "t2", "r", "b")
 
     ##
-    ## AUC CALC----------------------------------------
+    ## SAUC CI -------------------------------------------------
     ##
-
-    auc <- sAUC(c(u1,u2,t22,t12))
-
-    opt$par <- c(u1, u2, t11, t22, t12, c11, c22, b, a.opt, auc, se, sp)
-
-    names(opt$par) <- c("u1", "u2", "t11", "t22", "t12", "c11", "c22", "b", "a", "sauc", "se", "sp")
+    if (num.var) hes <- opt$num.hessian else hes <- opt$hessian
+    if(p==1) inv.I.fun.m <- solve(hes[1:5,1:5]) else inv.I.fun.m <- solve(hes)
+    
+    opt$var.ml <- inv.I.fun.m
+    
+    f <- function(x) plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
+    
+    f.lb <- function(x) plogis( u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) + 
+                                   qnorm((1-ci.level)/2)* sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))) 
+    
+    f.ub <- function(x) plogis( u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) + 
+                                   qnorm(1-(1-ci.level)/2)* sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))) 
+    
+    sauc.try <- try(integrate(f, 0, 1))
+    if(!inherits(sauc.try, "try-error")) sauc <- sauc.try$value else sauc <- NA
+    
+    sauc.lb.try <- try(integrate(f.lb, 0, 1))
+    if(!inherits(sauc.lb.try, "try-error"))  sauc.lb <- sauc.lb.try$value else sauc.lb <- NA
+    
+    sauc.ub.try <- try(integrate(f.ub, 0, 1))
+    if(!inherits(sauc.ub.try, "try-error"))  sauc.ub <- sauc.ub.try$value else sauc.ub <- NA
+    
+    opt$sauc.ci <- c(sauc, sauc.lb, sauc.ub)
+    names(opt$sauc.ci) <- c("sauc", "sauc.lb", "sauc.ub")
+    
+    ##
+    ## b CI -------------------------------------------------
+    ##
+    if(p==1) opt$b.ci <- c(b, NA, NA) else {
+      
+      b.se <- suppressWarnings(sqrt(inv.I.fun.m[6,6]))
+      b.lb <- b + qnorm((1-ci.level)/2)*b.se
+      b.ub <- b + qnorm(1-(1-ci.level)/2)*b.se
+      
+      opt$b.ci <- c(b, b.lb, b.ub)
+      
+    }
+    
+    names(opt$b.ci) <- c("b", "b.lb", "b.ub")
+    
+    ##
+    ## ALL PAR ----------------------------------------
+    ##
+    if(p==1) opt$par.all <- c(u1, u2, t11, t22, t12, NA, NA, NA, NA, sauc, se, sp)  else opt$par.all <- c(u1, u2, t11, t22, t12, c11, c22, b, a.opt, sauc, se, sp)
+      
+    names(opt$par.all) <- c("u1", "u2", "t11", "t22", "t12", "c11", "c22", "b", "a", "sauc", "se", "sp")
+    
+    if(p==1) opt$par <- c(u1, u2, t1, t2, r, NA, NA, NA, NA, sauc, se, sp)  else opt$par <- c(u1, u2, t1, t2, r, c1, c2, b, a.opt, sauc, se, sp)
+    
+    names(opt$par) <- c("u1", "u2", "t1", "t2", "r", "c1", "c2", "b", "a", "sauc", "se", "sp")
 
     ##
     ##  P.HAT CALC, FROM b FUNCTION ----------------------------------------
@@ -156,25 +217,26 @@ dtametasa.fc <- function(data,
 
     opt$p.hat <- n/sum(1/bp)
 
-
     opt$data <- data
-
-    opt$func.name <- "dtametasa.fc"
-
-    opt$pars.info <- list(p = p,
-                          c1.sq = c1.sq, ##  0<=c11<=1
-                          correct.value = correct.value,
-                          correct.type  = correct.type,
-                          brem.init = brem.init,  ## u1, u2, t1, t2, r, b
-                          b.init = b.init,
-                          b.interval = b.interval,
-                          a.interval = a.interval,
-                          positive.r = positive.r,
-                          ci.level = ci.level,
-                          show.warn.message = show.warn.message,
-                          a.root.extendInt = a.root.extendInt)
-
+    
+   
+    ##
+    ## END ----------------------------------------
+    ##
+    
     class(opt) <- "dtametasa"
+    
+    ##
+    ## PLOT SROC ----------------------------------------
+    ##
+    
+    if(plot.sroc){
+      
+      curve(f, xlim = c(0,1), ylim = c(0,1), xlab = "1 - specificity", ylab = "sensitivity")
+      curve(f.ub, add = TRUE, lty=2)
+      curve(f.lb, add = TRUE, lty=2)
+      
+    }
 }
 
   opt
