@@ -170,42 +170,58 @@ dtametasa.rc <- function(data,
     f    <- function(x) plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
     
     f.lb <- function(x) plogis( (u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) + 
-                                   qnorm((1-ci.level)/2)* sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) 
+                                   qnorm((1-ci.level)/2)* 
+                                   suppressWarnings(
+                                     sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) )
 
     f.ub <- function(x) plogis( (u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) + 
-                                   qnorm(1-(1-ci.level)/2)* sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) 
+                                   qnorm(1-(1-ci.level)/2)* 
+                                   suppressWarnings(
+                                     sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) )
     
     sauc.try <- try(integrate(f, 0, 1))
     if(!inherits(sauc.try, "try-error")) sauc <- sauc.try$value else sauc <- NA
     
-    sauc.lb.try <- try(integrate(f.lb, 0, 1))
-    if(!inherits(sauc.lb.try, "try-error"))  sauc.lb <- max(0, sauc.lb.try$value) else sauc.lb <- 0
-
-    sauc.ub.try <- try(integrate(f.ub, 0, 1))
-    if(!inherits(sauc.ub.try, "try-error"))  sauc.ub <- min(sauc.ub.try$value,1) else sauc.ub <- 1
+    # sauc.lb.try <- try(integrate(f.lb, 0, 1))
+    # if(!inherits(sauc.lb.try, "try-error"))  sauc.lb <- max(0, sauc.lb.try$value) else sauc.lb <- 0
+    # 
+    # sauc.ub.try <- try(integrate(f.ub, 0, 1))
+    # if(!inherits(sauc.ub.try, "try-error"))  sauc.ub <- min(sauc.ub.try$value,1) else sauc.ub <- 1
+    # 
+    # 
+    # opt$sauc.ci1 <- c(sauc, sauc.lb, sauc.ub)
+    # names(opt$sauc.ci1) <- c("sauc", "sroc.lb", "sroc.ub")
 
     
-    opt$sauc.ci <- c(sauc, sauc.lb, sauc.ub)
+    sauc.lb2 <-  plogis(qlogis(sauc) + qnorm((1-ci.level)/2) *
+                          suppressWarnings(
+                            sqrt(QIQ1(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))/(sauc*(1-sauc))) )
+    
+    sauc.ub2 <-  plogis(qlogis(sauc) + qnorm(1-(1-ci.level)/2)* 
+                          suppressWarnings(
+                            sqrt(QIQ1(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))/(sauc*(1-sauc))) )
+    
+    opt$sauc.ci <- c(sauc, sauc.lb2, sauc.ub2)
     names(opt$sauc.ci) <- c("sauc", "sauc.lb", "sauc.ub")
 
     ##
     ## b CI -------------------------------------------------
     ##
-    if(p==1) {
-      
-      opt$b.ci <- c(b, NA, NA)
-
-    } else {
-      
-      b.se <- suppressWarnings(sqrt(inv.I.fun.m[6,6]))
-      b.lb <- b + qnorm((1-ci.level)/2)*b.se
-      b.ub <- b + qnorm(1-(1-ci.level)/2)*b.se
-      
-      opt$b.ci <- c(b, b.lb, b.ub)
-      
-    }
-
-    names(opt$b.ci) <- c("b", "b.lb", "b.ub")
+    # if(p==1) {
+    #   
+    #   opt$b.ci <- c(b, NA, NA)
+    # 
+    # } else {
+    #   
+    #   b.se <- suppressWarnings(sqrt(solve(hes)[6,6]))
+    #   b.lb <- b + qnorm((1-ci.level)/2)*b.se
+    #   b.ub <- b + qnorm(1-(1-ci.level)/2)*b.se
+    #   
+    #   opt$b.ci <- c(b, b.lb, b.ub)
+    #   
+    # }
+    # 
+    # names(opt$b.ci) <- c("b", "b.lb", "b.ub")
     
     
     ##

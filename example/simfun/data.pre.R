@@ -81,4 +81,48 @@ QIQ <- function(x, u1, u2, t1, t2, r, inv.I.fun.m) {
 }
 
 
+QIQ1 <- function(x, u1, u2, t1, t2, r, inv.I.fun.m){
+  
+  Q1 <- function(x) { 
+    
+    g <- plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
+    g*(1-g)
+  }
+  
+  Q2 <- function(x) { 
+    
+    g <- plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
+    p.u2 <- (-r*t1/t2)*g*(1-g)
+  }
+  
+  Q3 <- function(x) { 
+    
+    g <- plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
+    p.t1 <- (-r/t2*(qlogis(x)+u2))*g*(1-g)
+    
+  }
+  
+  Q4 <- function(x) { 
+    
+    g <- plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
+    p.t2 <- r*t1/t2^2*( qlogis(x)+u2)*g*(1-g)
+    
+  }
+  
+  Q5 <- function(x) { 
+    
+    g <- plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
+    p.r  <- (-t1)/t2*(qlogis(x) + u2)*g*(1-g)
+  }
+  
+  fd <- c(integrate(Q1, 0, 1)$value,
+          integrate(Q2, 0, 1)$value,
+          integrate(Q3, 0, 1)$value,
+          integrate(Q4, 0, 1)$value,
+          integrate(Q5, 0, 1)$value
+  )
+  
+  (fd %*% inv.I.fun.m %*% fd)
+  
+}
 
