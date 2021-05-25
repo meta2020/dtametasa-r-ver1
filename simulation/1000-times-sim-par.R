@@ -10,7 +10,6 @@
 ##******************************************************************************
 rm(list = ls())
 
-t <- proc.time()
 ## 1. LOAD FUNCTIONS
 
 library("mvmeta")
@@ -19,14 +18,12 @@ library("parallel")
 library("doSNOW")
 library("doRNG")
 
-source("simfun/data.pre.R")
-source("simfun/sim.pdata.R")
-source("simfun/llk.o.R")
-source("simfun/sauc.R")
-source("simfun/dtametasa.fc.lit.R")
-source("simfun/dtametasa.rc.lit.R")
+files.sources <- list.files("simfun/")
+sapply(paste0("simfun/", files.sources), source)
 
 
+
+t <- proc.time()
 
 ## 2. LOAD ONR-TIME SIMULATION FUNCTION AND SCENARIOS
 

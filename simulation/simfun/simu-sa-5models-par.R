@@ -41,7 +41,7 @@ simu <- function(list.n,
   pdata <- sim.pdata(conf[c(1:8)])
   
   
-  ml.p <- ml.s <- ml.sa1.c <- ml.sa1.w <- ml.sa2<- rep(NA, 10)
+  ml.p <- ml.s <- ml.sa1.c <- ml.sa1.w <- ml.sa2<- rep(NA, 9)
   
   
   ##
@@ -68,7 +68,7 @@ simu <- function(list.n,
       
       v <- fit.p$Psi
       
-      ml.p[c(1:5, 10)]<- c(fit.p$coefficients, sqrt(v[c(1,4)]), v[3]/prod(sqrt(v[c(1,4)])), fit.p$converged-1)
+      ml.p[c(1:5, 9)]<- c(fit.p$coefficients, sqrt(v[c(1,4)]), v[3]/prod(sqrt(v[c(1,4)])), fit.p$converged-1)
       
     } 
     
@@ -80,7 +80,8 @@ simu <- function(list.n,
     
     sdata<- pdata[s.id,] 
     
-    fit.s <- try(mvmeta(cbind(y1,y2),S=cbind(v1, rep(0, nrow(sdata)), v2), data=sdata, method = "ml"), silent=TRUE)
+    fit.s <- try(mvmeta(cbind(y1,y2),S=cbind(v1, rep(0, nrow(sdata)), v2), 
+                        data=sdata, method = "ml"), silent=TRUE)
     
     if(!inherits(fit.s, "try-error")) {
       
@@ -88,7 +89,9 @@ simu <- function(list.n,
         
         v <- fit.s$Psi
         
-        ml.s[c(1:5, 10)]  <- c(fit.s$coefficients, sqrt(v[c(1,4)]), v[3]/prod(sqrt(v[c(1,4)])), fit.s$converged-1)
+        ml.s[c(1:5, 9)]<- c(fit.s$coefficients, 
+                             sqrt(v[c(1,4)]), v[3]/prod(sqrt(v[c(1,4)])), 
+                             fit.s$converged-1)
         
       } 
       
@@ -108,7 +111,6 @@ simu <- function(list.n,
                             b.init = b0, 
                             b.interval = b.interval,
                             a.interval = a.interval,
-                            positive.r = TRUE,
                             show.warn.message = FALSE
   ), 
   silent = TRUE)
@@ -132,7 +134,6 @@ simu <- function(list.n,
                             b.init = b0, 
                             b.interval = b.interval,
                             a.interval = a.interval,
-                            positive.r = TRUE,
                             show.warn.message = FALSE
   ), 
   silent = TRUE)
@@ -157,7 +158,6 @@ simu <- function(list.n,
                           b.init = b0,
                           b.interval = b.interval,
                           a.interval = a.interval,
-                          positive.r = TRUE,
                           show.warn.message = FALSE
   ), 
   silent = TRUE)
@@ -177,11 +177,11 @@ simu <- function(list.n,
   
   x   <- cbind(ml.sa2, ml.sa1.c, ml.sa1.w, ml.s, ml.p)
   
-  auc <- SAUC2(x[c(1:5),])
+  auc <- SAUC(x[c(1:5),])
   p.e <- c(p.e, rep(NA, 4))
   
   res <- rbind(x, auc, p.e)
-  rownames(res) <- c("u1", "u2", "t1", "t2", "r", "c1", "c2", "b", "a", "conv", "sAUC", "p.e")
+  rownames(res) <- c("u1", "u2", "t1", "t2", "r", "b", "a", "c1" ,"conv", "SAUC", "p.e")
   colnames(res) <- c("SA2", "SA1.C", "SA1.W", "BRE.O", "BRE.P")
   
   res

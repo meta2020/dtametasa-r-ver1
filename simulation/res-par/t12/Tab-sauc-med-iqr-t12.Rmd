@@ -39,7 +39,7 @@ table.sauc <- function(list.n, row.n){
   true.show<- c(set[[list.n]][row.n, 11], rep(NA, dim2-1))
 
   
-  med  <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) median(x, na.rm = TRUE))
+  med  <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) median(x, na.rm = TRUE)) - true.par
   q1 <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.25, na.rm = TRUE))
   q3 <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.75, na.rm = TRUE))
   
@@ -56,7 +56,7 @@ table.sauc <- function(list.n, row.n){
     med = sprintf("%.3f (%.3f, %.3f)", t(med), t(q1), t(q3)),
     CR     = conv.per*100)
   
-  X[c(1,3,2,4,5),]
+  X[c(1,2,3,4,5),]
 }
 ```
 
@@ -65,16 +65,16 @@ table.sauc <- function(list.n, row.n){
 
 ```{r, echo=TRUE} 
 
-# s.rdt <- "../../scenario/scenario-t12/set-t12-c11.RData"
-# dt <- "c11"
+s.rdt <- "../../scenario/scenario-t12/set-t12-c11.RData"
+dt <- "c11"
 
 
 # s.rdt <- "../../scenario/scenario-t12/set-t12-c10.RData"
 # dt <- "c10"
 
 
-s.rdt <- "../../scenario/scenario-t12/set-t12-c01.RData"
-dt <- "c01"
+# s.rdt <- "../../scenario/scenario-t12/set-t12-c01.RData"
+# dt <- "c01"
 
 ```
 

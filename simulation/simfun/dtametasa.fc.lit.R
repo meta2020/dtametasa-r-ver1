@@ -14,7 +14,6 @@ dtametasa.fc <- function(data,
                      b.init,
                      b.interval,
                      a.interval,
-                     positive.r,
                      show.warn.message = FALSE
 ){
 
@@ -67,8 +66,6 @@ dtametasa.fc <- function(data,
 
   eps <- sqrt(.Machine$double.eps)
 
-  if(positive.r) r.up <- 1 else  r.up <- eps
-
   fn <- function(par) llk.o(par = c(par[1:6], c1),
                             y1, y2, v1, v2,
                             n, p,
@@ -80,7 +77,7 @@ dtametasa.fc <- function(data,
   opt <- try(nlminb(start6,
                    fn,
                    lower = c(-5, -5, eps, eps, -1, b.interval[1]),
-                   upper = c( 5,  5, 3, 3, r.up , b.interval[2])
+                   upper = c( 5,  5, 3, 3,      1 , b.interval[2])
   ), silent = TRUE)
 
 
@@ -128,13 +125,13 @@ dtametasa.fc <- function(data,
     ## PAR --------------------------------------------------------
     ##
     
-    opt$par.all <- c(u1, u2, t11, t22, t12, c11, c22, b, a.opt)
+    opt$par2 <- c(u1, u2, t11, t22, t12, b, a.opt, c11)
 
-    names(opt$par.all) <- c("u1", "u2", "t11", "t22", "t12", "c11", "c22", "b", "a")
+    names(opt$par2) <- c("u1", "u2", "t11", "t22", "t12", "b", "a", "c11")
 
-    opt$par <- c(u1, u2, t1, t2, r, c1, c2, b, a.opt)
+    opt$par <- c(u1, u2, t1, t2, r, b, a.opt, c1)
     
-    names(opt$par) <- c("u1", "u2", "t1", "t2", "r", "c1", "c2", "b", "a")
+    names(opt$par) <- c("u1", "u2", "t1", "t2", "r", "b", "a", "c1")
     
 }
 

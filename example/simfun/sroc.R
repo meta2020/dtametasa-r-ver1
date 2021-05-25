@@ -1,56 +1,17 @@
 ##******************************************************************************
 ##
-## PLOT SROC OR SROC MATRIX
+## PLOT SROC MATRIX
 ##
 ##******************************************************************************
 
 
-SROC <- function(object,
-                 add = FALSE,
-                 sroc.col = 1,
-                 sroc.lty = 1,
-                 sroc.lwd = 1,
-                 add.spoint = TRUE,
-                 spoint.pch = 18,
-                 spoint.col = 1,
-                 spoint.cex = 2,
-                 xlab = "1-specificity",
-                 ylab = "Sensitivity",
-                 ...) {
 
-  if(inherits(object,"dtametasa")) par.vec <- object$par[c(1,2,4,5)] else {
-
-    if (is.vector(object) & length(object) >= 4) {
-
-      par.vec <- object} else stop("PLEASE INPUT EITHER dtametasa OBJECTS OR A VECTOR OF c(u1, u2, t22, t12)")
-
-  }
-
-  u1  <- par.vec[1]
-  u2  <- par.vec[2]
-  t22 <- par.vec[3]
-  t12 <- par.vec[4]
-
-  roc   <- function(x) plogis(u1 - (t12/t22) * (qlogis(x) + u2))
-
-  curve(roc, xlab = xlab, ylab = ylab, add = add, col = sroc.col, lwd =sroc.lwd,lty = sroc.lty,
-        xlim = c(0,1), ylim = c(0,1), ...)
-
-  if(add.spoint) points(plogis(-u2), plogis(u1), pch = spoint.pch, col = spoint.col, cex = spoint.cex, ...)
-
-
-}
-
-
-
-
-SROC.matrix2 <- function(par,  ## u1 u2 t12 t22
+SROC.matrix <- function(par,  ## u1 u2 t12 t22
                  add = FALSE,
                  ncols = NULL,
                  sroc.lty = 1,
                  sroc.lwd = 1,
                  add.spoint=TRUE,
-                 legend = FALSE,
                  p.vec,
                  legend.text = paste0("p = ",p.vec),
                  legend.cex = 1,
@@ -83,12 +44,6 @@ SROC.matrix2 <- function(par,  ## u1 u2 t12 t22
           lty = sroc.lty, lwd = sroc.lwd, ...)
   }
 
-  if (legend) legend("bottomright",
-                    legend = legend.text,
-                    col = ncols,
-                    lty = rep(sroc.lty, ncol(par)),
-                    cex = legend.cex,
-                    ...)
 
   if (add.spoint) {
     sens <- plogis(par[1,])

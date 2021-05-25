@@ -43,7 +43,7 @@ table.pars <- function(list.n, row.n){
                 sqrt(set[[list.n]][row.n, ][c(7)]),
                 set[[list.n]][row.n, ][c(9:10)])
 
-  med  <- apply(DATA, 1:2, function(x) median(x, na.rm = TRUE))[c(1:6, 8:9),]
+  med  <- apply(DATA, 1:2, function(x) median(x, na.rm = TRUE))[c(1:6, 8:9),]-true.par
   iq25 <- apply(DATA, 1:2, function(x) quantile(x, prob =0.25, na.rm = TRUE))[c(1:6, 8:9),]
   iq75 <- apply(DATA, 1:2, function(x) quantile(x, prob =0.75, na.rm = TRUE))[c(1:6, 8:9),]
 
@@ -71,7 +71,7 @@ dt <- "c11"
 
 # s.rdt <- "../../scenario/scenario-t12/set-t12-c10.RData"
 # dt <- "c10"
-# 
+
 # 
 # s.rdt <- "../../scenario/scenario-t12/set-t12-c01.RData"
 # dt <- "c01"
