@@ -23,14 +23,14 @@ sapply(paste0("simfun/", files.sources), source)
 
 
 
-t <- proc.time()
+
 
 ## 2. LOAD ONR-TIME SIMULATION FUNCTION AND SCENARIOS
 
 source("simfun/simu-sa-5models-par.R")
 
-tset <- "t12"
-# tset <- "t0.7"
+# tset <- "t12"
+tset <- "t0.7"
 ## 3. 1000 TIMES REPEAT
 
 re <- 1000
@@ -50,6 +50,9 @@ ncores <- detectCores()
 cl <- makeCluster(ncores, "SOCK")
 doSNOW::registerDoSNOW(cl)
 
+
+
+t <- proc.time()
 
 
 load(paste0("scenario/scenario-",tset,"/set-", tset, "-c11.RData"))

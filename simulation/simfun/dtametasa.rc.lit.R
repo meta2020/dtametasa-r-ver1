@@ -125,11 +125,11 @@ dtametasa.rc <- function(data,
 
     opt$par2 <- c(u1, u2, t11, t22, t12,  b, a.opt, c11)
     
-    names(opt$par2) <- c("u1", "u2", "t11", "t22", "t12", "c11", "c22", "b", "a")
+    names(opt$par2) <- c("u1", "u2", "t11", "t22", "t12", "b", "a", "c11")
     
     opt$par <- c(u1, u2, t1, t2, r, b, a.opt, c1)
     
-    names(opt$par) <- c("u1", "u2", "t1", "t2", "r", "c1", "c2", "b", "a")
+    names(opt$par) <- c("u1", "u2", "t1", "t2", "r", "b", "a", "c1")
 
 
   }
