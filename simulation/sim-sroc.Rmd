@@ -13,19 +13,27 @@ editor_options:
 knitr::opts_chunk$set(echo = FALSE, fig.width = 10, fig.height = 10)
 
 rm(list = ls())
+
+
+
+files.sources <- list.files("simfun/")
+sapply(paste0("simfun/", files.sources), source)
+library(latex2exp)
+
+
 imput.plot <- function(s.rdt,
                        list.n, row.n, a,
                        title, 
                        seed){
   
   # s.rdt <- "scenario/scenario-t12/set-t12-c11.RData"
-
-  load(s.rdt)
   # 
   # list.n <- 2
   # row.n <- 6
   # seed <- 123
   # a <- -0.91
+
+  load(s.rdt)
   
   S <- set[[list.n]][1,1]
   conf <- set[[list.n]][row.n, 1:8]
@@ -82,7 +90,7 @@ imput.plot <- function(s.rdt,
                      b.interval = c(0,2),
                      a.interval = c(-3, 3))
   
-  sa$par.all
+  sa$par2
   
 })
   
@@ -96,19 +104,23 @@ imput.plot <- function(s.rdt,
   # title(t.num1, adj = 0, cex.main = 1.5, font.main = 1)
   title(TeX(title), cex.main = 1.5)
   
+  sy <- sdata[,2:1]
+  ry <- rdata[,2:1]
   
 lines(plogis(ellipse::
-               ellipse(-cor(sdata[,1:2])[3],
-                       centre = colMeans(sdata[,1:2])[2:1]*c(-1,1),
+               ellipse(abs(cov(sy)),
+                       centre = colMeans(sy)*c(-1,1),
+                       level = 0.7
                        # scale = c(1,1), 
-                       scale = sqrt(var(sdata[,1:2])[c(4,1)]),
-                       t = 1)), col="grey48", lty=1)
+                       # scale = sqrt(var(sdata[,1:2])[c(4,1)]),
+                       )), col="grey48", lty=1)
 
 lines(plogis(ellipse::
-               ellipse(-cor(rdata[,1:2])[3],
-                       centre = colMeans(rdata[,1:2])[2:1]*c(-1,1),
-                       scale = sqrt(var(sdata[,1:2])[c(4,1)]),
-                       t = 1)),  col="grey48", lty=2)
+               ellipse(abs(cov(ry)),
+                       centre = colMeans(ry)*c(-1,1),
+                       level = 0.7
+                       # scale = sqrt(var(sdata[,1:2])[c(4,1)])
+                       )),  col="grey48", lty=2)
   
   # legend("bottomright", legend=round(p.e, 4))
 
@@ -118,20 +130,24 @@ lines(plogis(ellipse::
               spoint.cex = 2,
               add = FALSE)
   # title(t.num2, adj = 0, cex.main = 1.5, font.main = 1)
+  arrows(plogis(-x[2,1]), plogis(x[1,1])-0.1,plogis(-x[2,4])+0.05, plogis(x[1,4])-0.1, col = "red",
+         length = 0.1)
   title(TeX(title), cex.main = 1.5)
   
-  lines(plogis(ellipse::
-               ellipse(-cor(sdata[,1:2])[3],
-                       centre = colMeans(sdata[,1:2])[2:1]*c(-1,1),
+lines(plogis(ellipse::
+               ellipse(abs(cov(sy)),
+                       centre = colMeans(sy)*c(-1,1),
+                       level = 0.7
                        # scale = c(1,1), 
-                       scale = sqrt(var(sdata[,1:2])[c(4,1)]),
-                       t = 1)), col="grey48", lty=1)
+                       # scale = sqrt(var(sdata[,1:2])[c(4,1)]),
+                       )), col="grey48", lty=1)
 
 lines(plogis(ellipse::
-               ellipse(-cor(rdata[,1:2])[3],
-                       centre = colMeans(rdata[,1:2])[2:1]*c(-1,1),
-                       scale = sqrt(var(sdata[,1:2])[c(4,1)]),
-                       t = 1)),  col="grey48", lty=2)
+               ellipse(abs(cov(ry)),
+                       centre = colMeans(ry)*c(-1,1),
+                       level = 0.7
+                       # scale = sqrt(var(sdata[,1:2])[c(4,1)])
+                       )),  col="grey48", lty=2)
 
   # fit <- mvmeta::mvmeta(cbind(y1,y2),S=cbind(v1, rep(0, nrow(pdata)), v2), data=pdata, method = "ml")
   # SROC.matrix(c(fit$coefficients, fit$Psi[c(4,3)]),
@@ -144,9 +160,6 @@ lines(plogis(ellipse::
 
 }
 
-files.sources <- list.files("simfun/")
-sapply(paste0("simfun/", files.sources), source)
-library(latex2exp)
 
 ```
 
@@ -168,8 +181,8 @@ list.n <- 2  # S = 50
 seed <- 123
 
 # 
-# setEPS(width = 9, height = 7)
-# postscript("sim-sa3.eps")
+setEPS(width = 9, height = 7)
+postscript("sim-sa3.eps")
 
 par(oma = c(8,1,1,1),
     mfcol = c(2, 3), 
@@ -177,16 +190,12 @@ par(oma = c(8,1,1,1),
 
 imput.plot(s.rdt1, list.n, 3, a = -1.51, 
            title ="$c_1 = c_2$", seed = seed)
-arrows(0.15, 0.65, 0.4, 0.75, col = "red")
-
 
 imput.plot(s.rdt2, list.n, 3, a = -1.21, 
            title = "$(c_1, \\,  c_2) = (1, 0)$", seed = seed)
-arrows(0.4, 0.65, 0.2, 0.5, col = "red")
 
 imput.plot(s.rdt3, list.n, 3, a = -1.05, 
            title = "$(c_1, \\,  c_2) = (0, 1)$", seed = seed)
-arrows(0.1, 0.6, 0.4, 0.7, col = "red")
 
 
 par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(2, 0, 2, 0), new = TRUE)
@@ -195,22 +204,22 @@ plot(0, 0, type = 'l', bty = 'n', xaxt = 'n', yaxt = 'n')
 legend_order <- matrix(1:8, ncol=4, byrow = TRUE)
 
 legend('bottom',
-       legend = c("published studies", "unpublished studies", 
-                  "published region", "unpublished region",
+       legend = c("Selected study", "Selected region",
+                  "Unselected study", "Unselected region",
                   paste0("p = ", c(1, 0.9, 0.7, 0.5)))[legend_order], 
-       col = c("black", "black", "grey48", "grey48", 1:4)[legend_order], 
-       lty = c(rep(0,2), 1, 2, rep(1,4))[legend_order],
-       pch = c(1, 4, rep(0,2), rep(18,4))[legend_order],
+       col = c("black", "grey48", "black", "grey48", 1:4)[legend_order], 
+       lty = c(0,1,0,2, rep(1,4))[legend_order],
+       pch = c(1,0,4,0, rep(18,4))[legend_order],
        xpd = TRUE, 
        #horiz = TRUE, 
        cex = 1.2,
-       pt.cex =c(1.2, 1.2,rep(0,2), rep(2,4))[legend_order],
+       pt.cex =c(1.2, 0, 1.2, 0, rep(2,4))[legend_order],
        #seg.len=1, 
        bty = 'n',
        ncol = 4)
 
 par(mfrow = c(1,1))
 
-# dev.off()
+dev.off()
 ```
 

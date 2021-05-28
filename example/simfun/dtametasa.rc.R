@@ -1,7 +1,7 @@
 ##******************************************************************************
 ##
 ## PROPOSED MODEL, NOT SPECIFY C VECTOR, SA2
-## 
+##
 ##
 ##******************************************************************************
 
@@ -11,10 +11,10 @@ dtametasa.rc <- function(data,
                   p,
                   correct.value = 0.5,
                   correct.type = "all",
-                  brem.init = NULL, 
+                  brem.init = NULL,
                   b.init = 1,
                   c1.sq.init = 0.5,
-                  b.interval = c(0, 2), 
+                  b.interval = c(0, 2),
                   a.interval = c(-3, 3),
                   ci.level = 0.95,
                   show.warn.message = FALSE,
@@ -79,7 +79,7 @@ dtametasa.rc <- function(data,
 
     fn <- function(par) llk.o(par,
                               y1, y2, v1, v2, n, p,
-                              a.root.extendInt = a.root.extendInt, 
+                              a.root.extendInt = a.root.extendInt,
                               a.interval = a.interval,
                               show.warn.message = show.warn.message)
 
@@ -91,7 +91,7 @@ dtametasa.rc <- function(data,
 
   if(!inherits(opt,"try-error")) {
 
- 
+
     ##
     ##  OUTPUT: ALL PARAMETERS -------------------------------------------------
     ##
@@ -133,17 +133,17 @@ dtametasa.rc <- function(data,
     if (!show.warn.message) a.opt.try <- suppressWarnings(try(uniroot(a.p, a.interval, extendInt=a.root.extendInt), silent = TRUE)) else a.opt.try <- try(uniroot(a.p, a.interval, extendInt=a.root.extendInt), silent = FALSE)
 
     a.opt <- a.opt.try$root
-    
+
     ##
     ##  HESSIANS -------------------------------------------------
     ##
-    
-    
+
+
 
     opt$num.hessian <- numDeriv::hessian(fn, opt$par)
     rownames(opt$num.hessian) <- c("u1", "u2", "t1", "t2", "r", "b", "c1")
     colnames(opt$num.hessian) <- c("u1", "u2", "t1", "t2", "r", "b", "c1")
-    
+
     ##
     ## SAUC CI -------------------------------------------------
     ##
@@ -153,30 +153,30 @@ dtametasa.rc <- function(data,
 
     opt$var.ml <- inv.I.fun.m
 
-    
-    f    <- function(x) plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
-    
-    f.lb <- function(x) plogis( (u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) + 
-                                   qnorm((1-ci.level)/2, lower.tail = TRUE)* 
-                                   suppressWarnings(
-                                     sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) )
 
-    f.ub <- function(x) plogis( (u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) + 
-                                   qnorm((1-ci.level)/2, lower.tail = FALSE)* 
-                                   suppressWarnings(
-                                     sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) )
-    
+    f    <- function(x) plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
+
+    # f.lb <- function(x) plogis( (u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) +
+    #                                qnorm((1-ci.level)/2, lower.tail = TRUE)*
+    #                                suppressWarnings(
+    #                                  sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) )
+    #
+    # f.ub <- function(x) plogis( (u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) +
+    #                                qnorm((1-ci.level)/2, lower.tail = FALSE)*
+    #                                suppressWarnings(
+    #                                  sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) )
+
     sauc.try <- try(integrate(f, 0, 1))
     if(!inherits(sauc.try, "try-error")) sauc <- sauc.try$value else sauc <- NA
-    
+
     sauc.lb2 <-  plogis(qlogis(sauc) + qnorm((1-ci.level)/2, lower.tail = TRUE) *
                           suppressWarnings(
                             sqrt(QIQ1(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))/(sauc*(1-sauc))) )
-    
-    sauc.ub2 <-  plogis(qlogis(sauc) + qnorm((1-ci.level)/2, lower.tail = FALSE)* 
+
+    sauc.ub2 <-  plogis(qlogis(sauc) + qnorm((1-ci.level)/2, lower.tail = FALSE)*
                           suppressWarnings(
                             sqrt(QIQ1(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))/(sauc*(1-sauc))) )
-    
+
     opt$sauc.ci <- c(sauc, sauc.lb2, sauc.ub2)
     names(opt$sauc.ci) <- c("sauc", "sauc.lb", "sauc.ub")
 
@@ -198,18 +198,18 @@ dtametasa.rc <- function(data,
     }
 
     names(opt$b.ci) <- c("b", "b.lb", "b.ub")
-    
-    
+
+
     ##
     ## ALL PAR ----------------------------------------
     ##
 
     if(p==1) opt$par <- c(u1, u2, t1, t2, r, NA, NA, NA, NA, sauc, se, sp)  else opt$par <- c(u1, u2, t1, t2, r, c1, c2, b, a.opt, sauc, se, sp)
-    
+
     names(opt$par) <- c("u1", "u2", "t1", "t2", "r", "c1", "c2", "b", "a", "sauc", "se", "sp")
-    
-    
-    
+
+
+
     ##
     ##  show.p.hat CALC, FROM b FUNCTION ----------------------------------------
     ##
@@ -223,7 +223,7 @@ dtametasa.rc <- function(data,
       opt$data <- data
 
     class(opt) <- "dtametasa"
-    
+
 
   }
 

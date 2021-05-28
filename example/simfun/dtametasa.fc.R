@@ -1,17 +1,17 @@
 ##******************************************************************************
 ##
 ## PROPOSED MODEL, SPECIFY C VECTOR, SA1
-## 
+##
 ##
 ##******************************************************************************
 
 
-dtametasa.fc <- function(data,   
+dtametasa.fc <- function(data,
                      p,
-                     c1.sq = 0.5, 
+                     c1.sq = 0.5,
                      correct.value = 0.5,
                      correct.type = "all",
-                     brem.init = NULL,  
+                     brem.init = NULL,
                      b.init = 1,
                      b.interval = c(0, 2),
                      a.interval = c(-3, 3),
@@ -84,7 +84,7 @@ dtametasa.fc <- function(data,
   fn <- function(par) llk.o(par = c(par[1:6], c1),
                             y1, y2, v1, v2, n, p,
                             a.interval,
-                            a.root.extendInt, 
+                            a.root.extendInt,
                             show.warn.message)
 
   opt <- try(nlminb(start6,
@@ -95,7 +95,7 @@ dtametasa.fc <- function(data,
 
 
   if(!inherits(opt,"try-error")) {
-  
+
     ##
     ##  OUTPUT: ALL PARAMETERS -------------------------------------------------
     ##
@@ -133,11 +133,11 @@ dtametasa.fc <- function(data,
         uniroot(a.p, interval = a.interval, extendInt=a.root.extendInt), silent = TRUE)
 
     a.opt <- a.opt.try$root
-    
+
     ##
     ##  HESSIANS -------------------------------------------------
     ##
-    
+
     opt$num.hessian <- numDeriv::hessian(fn, opt$par)
     rownames(opt$num.hessian) <- c("u1", "u2", "t1", "t2", "r", "b")
     colnames(opt$num.hessian) <- c("u1", "u2", "t1", "t2", "r", "b")
@@ -147,35 +147,35 @@ dtametasa.fc <- function(data,
     ##
     hes <- opt$num.hessian
     if(p==1) inv.I.fun.m <- solve(hes[1:5,1:5]) else inv.I.fun.m <- solve(hes[1:6, 1:6])
-    
+
     opt$var.ml <- inv.I.fun.m
-    
+
     f <- function(x) plogis(u1 - (t1*t2*r/(t2^2)) * (qlogis(x) + u2))
-    
-    f.lb <- function(x) plogis( u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) + 
-                                  qnorm((1-ci.level)/2, lower.tail = TRUE)* 
-                                  suppressWarnings(
-                                    sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) 
-    
-    f.ub <- function(x) plogis( u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) + 
-                                  qnorm((1-ci.level)/2, lower.tail = FALSE)* 
-                                  suppressWarnings(
-                                     sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5])))) 
-    
+
+    # f.lb <- function(x) plogis( u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) +
+    #                               qnorm((1-ci.level)/2, lower.tail = TRUE)*
+    #                               suppressWarnings(
+    #                                 sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))))
+    #
+    # f.ub <- function(x) plogis( u1 - (t1*t2*r/t2^2) * (qlogis(x) + u2) +
+    #                               qnorm((1-ci.level)/2, lower.tail = FALSE)*
+    #                               suppressWarnings(
+    #                                  sqrt(QIQ(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))))
+
     sauc.try <- try(integrate(f, 0, 1))
     if(!inherits(sauc.try, "try-error")) sauc <- sauc.try$value else sauc <- NA
-    
+
     sauc.lb2 <-  plogis(qlogis(sauc) + qnorm((1-ci.level)/2, lower.tail = TRUE) *
                           suppressWarnings(
                             sqrt(QIQ1(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))/(sauc*(1-sauc))) )
-    
-    sauc.ub2 <-  plogis(qlogis(sauc) + qnorm((1-ci.level)/2, lower.tail = FALSE)* 
+
+    sauc.ub2 <-  plogis(qlogis(sauc) + qnorm((1-ci.level)/2, lower.tail = FALSE)*
                           suppressWarnings(
                             sqrt(QIQ1(x, u1, u2, t1, t2, r, inv.I.fun.m[1:5,1:5]))/(sauc*(1-sauc))) )
-    
+
     opt$sauc.ci <- c(sauc, sauc.lb2, sauc.ub2)
     names(opt$sauc.ci) <- c("sauc", "sauc.lb", "sauc.ub")
-    
+
     #
     # b CI -------------------------------------------------
     #
@@ -190,13 +190,13 @@ dtametasa.fc <- function(data,
     }
 
     names(opt$b.ci) <- c("b", "b.lb", "b.ub")
-    
+
     ##
     ## ALL PAR ----------------------------------------
     ##
-    
+
     if(p==1) opt$par <- c(u1, u2, t1, t2, r, NA, NA, NA, NA, sauc, se, sp)  else opt$par <- c(u1, u2, t1, t2, r, c1, c2, b, a.opt, sauc, se, sp)
-    
+
     names(opt$par) <- c("u1", "u2", "t1", "t2", "r", "c1", "c2", "b", "a", "sauc", "se", "sp")
 
     ##
@@ -206,14 +206,14 @@ dtametasa.fc <- function(data,
     bp <- 1/mean(pnorm( (a.opt + b * u.ldor/se.ldor) / sq ), na.rm=TRUE)
 
     opt$p.hat <- bp
-   
+
     ##
     ## END ----------------------------------------
     ##
-    
+
     class(opt) <- "dtametasa"
-    
-    
+
+
 }
 
   opt
