@@ -1,11 +1,11 @@
 ---
-title: 'SAUC Median Lines '
+title: 'SAUC Median Lines'
+subtitle: "t0.7"
 author: "Yi"
 date: "`r format(Sys.Date())`"
 output:
   pdf_document: default
   html_document: null
-subtitle: p is about 0.7, b = 0.5
 editor_options:
   chunk_output_type: console
 ---
@@ -17,41 +17,14 @@ opts_chunk$set(echo = FALSE, warning = FALSE, error = TRUE, message=FALSE, comme
                fig.height=8, fig.width=12)
 options(knitr.kable.NA = ".")
 
-auc.ave <- function(row.n){
-  
-  auc <- NULL
-  for(list.n in 1:3){
-    
-    load(paste0(dt, "/sim_l", list.n, "_r",row.n, ".RData"))
-    dim(DATA) <- c(12,5,1000)
-    auc  <- rbind(auc, apply(DATA[11,,], 1, function(x) mean(x, na.rm = TRUE)))
-            
-  }
-  true <- set[[1]][row.n, 11]
-  e.auc <- cbind(true,auc)
-  
-  y1 <- min(e.auc)-0.05
-  y2 <- max(e.auc)+0.15
-  
-  matplot(e.auc, type = "b", pch = rep(20,5), 
-          cex = 1, lty = 1, 
-          ylab = "Mean SAUC", 
-          xlab = "",
-          ylim =c(y1,y2),
-          col = c(1:5), xaxt="n")
-  axis(1, at = 1:3, labels = 1:3)
-  title(main = sprintf("%s", row.n))
-}
-
-
 auc.med <- function(row.n){
   
   auc <- NULL
   for(list.n in 1:3){
     
     load(paste0(dt, "/sim_l", list.n, "_r",row.n, ".RData"))
-    dim(DATA) <- c(12,5,1000)
-    auc  <- rbind(auc, apply(DATA[11,,], 1, function(x) median(x, na.rm = TRUE)))
+    dim(DATA) <- c(11,5,1000)
+    auc  <- rbind(auc, apply(DATA[10,,], 1, function(x) median(x, na.rm = TRUE)))
             
   }
   

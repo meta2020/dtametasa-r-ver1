@@ -1,5 +1,5 @@
 ---
-title: "Estimates of SAUC with CR, 3 True c vectors"
+title: "SAUC with CR, 3 True settings of c"
 subtitle: "t0.7"
 author: "Yi"
 date: "`r format(Sys.Date())`"
@@ -39,15 +39,15 @@ table.sauc <- function(list.n, row.n){
   true.show<- c(set[[list.n]][row.n, 11], rep(NA, dim2-1))
 
   
-  med  <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) median(x, na.rm = TRUE))
-  q1 <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.25, na.rm = TRUE))
-  q3 <- apply(DATA[11, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.75, na.rm = TRUE))
+  med  <- apply(DATA[10, , ,drop=FALSE], 1:2, function(x) median(x, na.rm = TRUE)) - true.par
+  q1 <- apply(DATA[10, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.25, na.rm = TRUE))
+  q3 <- apply(DATA[10, , ,drop=FALSE], 1:2, function(x) quantile(x, prob =0.75, na.rm = TRUE))
   
-  conv1 <- DATA[10,1, ]
-  conv2 <- DATA[10,2, ]
-  conv3 <- DATA[10,3, ]
-  conv4 <- DATA[10,4, ]
-  conv5 <- DATA[10,5, ]
+  conv1 <- DATA[9,1, ]
+  conv2 <- DATA[9,2, ]
+  conv3 <- DATA[9,3, ]
+  conv4 <- DATA[9,4, ]
+  conv5 <- DATA[9,5, ]
 
   conv.per <- c(sum(conv1 %in% 0)/1000, sum(conv2 %in% 0)/1000, sum(conv3 %in% 0)/1000, 
                 sum(conv4 %in% 0)/1000, sum(conv5 %in% 0)/1000)
@@ -56,34 +56,22 @@ table.sauc <- function(list.n, row.n){
     med = sprintf("%.3f (%.3f, %.3f)", t(med), t(q1), t(q3)),
     CR     = conv.per*100)
   
-
-  rownames(X) <- name.c
-  
-  X  
+  X
 }
+
 ```
 
 
 # Print table
 
-```{r, echo=TRUE} 
+
+```{r, results='asis'}
 
 s.rdt <- "../../scenario/scenario-t0.7/set-t0.7-c11.RData"
 dt <- "c11"
 
 
-# s.rdt <- "../../scenario/scenario-t0.7/set-t0.7-c10.RData"
-# dt <- "c10"
-# 
-# 
-# s.rdt <- "../../scenario/scenario-t0.7/set-t0.7-c01.RData"
-# dt <- "c01"
 
-```
-
-# With No column
-
-```{r, results='asis'}
 longtab <- NULL
 
 for(row.n in c(1:6)){
@@ -99,15 +87,18 @@ for(row.n in c(1:6)){
 longtab.f <- cbind.data.frame(no = c(1, rep(NA, 4),2, rep(NA, 4),3, rep(NA, 4),4, rep(NA, 4),5, rep(NA, 4),6, rep(NA, 4) ),
                               " " = rep(c("Proposed $(\\hat{c}_1, \\hat{c}_2)$",
                                           "Proposed $(c_1 = c_2)$",
-                                          "Proposed $(c_1 = 1)$",
+                                          "Proposed $(c_1 = 0)$",
+                                          # "Proposed (correct)",
+                                          # "Proposed (wrong)",
                                           "Reistma$_O$",
                                           "Reistma$_P$"),6),
                               longtab)
 rownames(longtab.f) <- NULL
 colnames(longtab.f) <- c("No."," ", "True", rep(c("Median (Q1, Q3)", "CR"), 3))
 
-
-# sink("tb-sauc-11.tex")
+# sink("tb-sauc-t0.7-c01.tex")
+# sink("tb-sauc-t0.7-c10.tex")
+# sink("tb-sauc-t0.7-c11.tex")
 
 kbl(longtab.f, 
     format = "latex",
@@ -133,9 +124,14 @@ kbl(longtab.f,
 
 ```
 
-# Without No column
 
-```{r, results='asis', include=FALSE}
+```{r, results='asis'}
+
+s.rdt <- "../../scenario/scenario-t0.7/set-t0.7-c10.RData"
+dt <- "c10"
+
+
+
 longtab <- NULL
 
 for(row.n in c(1:6)){
@@ -148,18 +144,21 @@ for(row.n in c(1:6)){
   
 }
 
-longtab.f <- cbind.data.frame(
+longtab.f <- cbind.data.frame(no = c(1, rep(NA, 4),2, rep(NA, 4),3, rep(NA, 4),4, rep(NA, 4),5, rep(NA, 4),6, rep(NA, 4) ),
                               " " = rep(c("Proposed $(\\hat{c}_1, \\hat{c}_2)$",
-                                          "Proposed $(c_1 = c_2)$",
                                           "Proposed $(c_1 = 1)$",
+                                          "Proposed $(c_1 = c_2)$",
+                                          # "Proposed (correct)",
+                                          # "Proposed (wrong)",
                                           "Reistma$_O$",
                                           "Reistma$_P$"),6),
                               longtab)
 rownames(longtab.f) <- NULL
-colnames(longtab.f) <- c(" ", "True", rep(c("Median (Q1, Q3)", "CR"), 3))
+colnames(longtab.f) <- c("No."," ", "True", rep(c("Median (Q1, Q3)", "CR"), 3))
 
-
-# sink("tb-sauc-11.tex")
+# sink("tb-sauc-t0.7-c01.tex")
+# sink("tb-sauc-t0.7-c10.tex")
+# sink("tb-sauc-t0.7-c11.tex")
 
 kbl(longtab.f, 
     format = "latex",
@@ -169,8 +168,8 @@ kbl(longtab.f,
     align = "r",
     linesep = c('', '', '', '', '\\addlinespace'),
     escape = FALSE,
-    caption = "Estimates of SAUC when true $c_1 = c_2$") %>% 
-  add_header_above(c("","", "$S = 25$" = 2, "$S = 50$" = 2, "$S = 200$" = 2), escape = FALSE) %>% 
+    caption = "Estimates of SAUC when true $c_1 = 1$") %>% 
+  add_header_above(c("","","", "$S = 25$" = 2, "$S = 50$" = 2, "$S = 200$" = 2), escape = FALSE) %>% 
   kable_styling(latex_options = c("repeat_header"), full_width = FALSE) %>%
   footnote(general = "Proposed $({hat{c}_1, hat{c}_2})$ is the proposed model estimating $(c_1, c_2)$;
    Proposed $(c_1 = c_2)$ is the proposed model correctly specifying that $c_1=c_2$;
@@ -184,3 +183,66 @@ kbl(longtab.f,
 
 
 ```
+
+
+
+
+```{r, results='asis'}
+
+s.rdt <- "../../scenario/scenario-t0.7/set-t0.7-c01.RData"
+dt <- "c01"
+
+
+
+longtab <- NULL
+
+for(row.n in c(1:6)){
+  
+  longtb <- cbind.data.frame(table.sauc(1, row.n),
+                             table.sauc(2, row.n)[,-1],
+                             table.sauc(3, row.n)[,-1])
+
+  longtab <- rbind.data.frame(longtab, longtb)
+  
+}
+
+longtab.f <- cbind.data.frame(no = c(1, rep(NA, 4),2, rep(NA, 4),3, rep(NA, 4),4, rep(NA, 4),5, rep(NA, 4),6, rep(NA, 4) ),
+                              " " = rep(c("Proposed $(\\hat{c}_1, \\hat{c}_2)$",
+                                          "Proposed $(c_1 = 0)$",
+                                          "Proposed $(c_1 = c_2)$",
+                                          # "Proposed (correct)",
+                                          # "Proposed (wrong)",
+                                          "Reistma$_O$",
+                                          "Reistma$_P$"),6),
+                              longtab)
+rownames(longtab.f) <- NULL
+colnames(longtab.f) <- c("No."," ", "True", rep(c("Median (Q1, Q3)", "CR"), 3))
+
+# sink("tb-sauc-t0.7-c01.tex")
+# sink("tb-sauc-t0.7-c10.tex")
+# sink("tb-sauc-t0.7-c11.tex")
+
+kbl(longtab.f, 
+    format = "latex",
+    longtable = F, 
+    booktabs = T, 
+    digits = 3,
+    align = "r",
+    linesep = c('', '', '', '', '\\addlinespace'),
+    escape = FALSE,
+    caption = "Estimates of SAUC when true $c_1 = 0$") %>% 
+  add_header_above(c("","","", "$S = 25$" = 2, "$S = 50$" = 2, "$S = 200$" = 2), escape = FALSE) %>% 
+  kable_styling(latex_options = c("repeat_header"), full_width = FALSE) %>%
+  footnote(general = "Proposed $({hat{c}_1, hat{c}_2})$ is the proposed model estimating $(c_1, c_2)$;
+   Proposed $(c_1 = c_2)$ is the proposed model correctly specifying that $c_1=c_2$;
+   Proposed $(c_1 = 1)$ is the proposed model misspecifying that $(c_1, c_2) = (1,0)$;
+   Reitsma$_O$ is Reitsma model based on the observed studies;
+   and Reitsma$_P$ is Reitsma model based on the population studies.", escape = FALSE, threeparttable = TRUE)
+
+
+# sink()
+
+
+
+```
+

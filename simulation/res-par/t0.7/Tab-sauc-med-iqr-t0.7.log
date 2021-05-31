@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.3.6)  31 MAY 2021 17:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.3.6)  31 MAY 2021 17:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Tab-sauc-med-iqr-t12.tex
-(./Tab-sauc-med-iqr-t12.tex
+**Tab-sauc-med-iqr-t0.7.tex
+(./Tab-sauc-med-iqr-t0.7.tex
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18> (/usr/local/texlive/2020/texmf-dist/tex/latex
 /base/article.cls
@@ -473,8 +473,8 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 File: l3backend-pdftex.def 2021-03-02 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count303
 \l__pdf_internal_box=\box67
-) (./Tab-sauc-med-iqr-t12.aux)
-\openout1 = `Tab-sauc-med-iqr-t12.aux'.
+) (./Tab-sauc-med-iqr-t0.7.aux)
+\openout1 = `Tab-sauc-med-iqr-t0.7.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 91.
 LaTeX Font Info:    ... okay on input line 91.
@@ -651,27 +651,27 @@ fier (name{table.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.274 \end{document}
-                    ] (./Tab-sauc-med-iqr-t12.aux) ) 
+                    ] (./Tab-sauc-med-iqr-t0.7.aux) ) 
 Here is how much of TeX's memory you used:
  13923 strings out of 479023
- 206153 string characters out of 5859413
- 627307 words of memory out of 5000000
+ 206163 string characters out of 5859413
+ 627316 words of memory out of 5000000
  31061 multiletter control sequences out of 15000+600000
  452375 words of font info for 92 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 85i,14n,88p,525b,355s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2020/te
-xmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2020/texmf-dist/fonts
-/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips
-/lm/lm-rm.enc}</usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmbx12.
-pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/
-local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texli
-ve/2020/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2020/tex
-mf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2020/texmf-dist/fon
-ts/type1/public/lm/lmr17.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/pu
-blic/lm/lmr7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmri
-10.pfb>
-Output written on Tab-sauc-med-iqr-t12.pdf (4 pages, 146402 bytes).
+ 85i,14n,88p,526b,355s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2020/t
+exmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2020/texmf-dist/font
+s/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvip
+s/lm/lm-rm.enc}</usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmbx12
+.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texl
+ive/2020/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2020/te
+xmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2020/texmf-dist/fo
+nts/type1/public/lm/lmr17.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/p
+ublic/lm/lmr7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmr
+i10.pfb>
+Output written on Tab-sauc-med-iqr-t0.7.pdf (4 pages, 146240 bytes).
 PDF statistics:
  73 PDF objects out of 1000 (max. 8388607)
  58 compressed objects within 1 object stream

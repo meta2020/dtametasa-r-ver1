@@ -38,7 +38,7 @@ set <- lapply(c(25, 50, 200), function(S) {
   c11 <- rep(0.5, 6)
   c22 <- 1-c11
   
-  sauc<- SAUC(rbind(u1, u2, t22, t12))
+  sauc<- SAUC(rbind(u1, u2, sqrt(t11), sqrt(t22), r))
   
   cbind(S, u1, u2, t11, t22, t12, c11, c22, b, a, sauc, r, se, sp)
   
@@ -66,7 +66,7 @@ set <- lapply(c(25, 50, 200), function(S) {
   c11 <- rep(1, 6)
   c22 <- 1-c11
   
-  sauc<- SAUC(rbind(u1, u2, t22, t12))
+  sauc<- SAUC(rbind(u1, u2, sqrt(t11), sqrt(t22), r))
   
   cbind(S, u1, u2, t11, t22, t12, c11, c22, b, a, sauc, r, se, sp)
   
@@ -94,7 +94,7 @@ set <- lapply(c(25, 50, 200), function(S) {
   c11 <- rep(0, 6)
   c22 <- 1-c11
   
-  sauc<- SAUC(rbind(u1, u2, t22, t12))
+  sauc<- SAUC(rbind(u1, u2, sqrt(t11), sqrt(t22), r))
   
   cbind(S, u1, u2, t11, t22, t12, c11, c22, b, a, sauc, r, se, sp)
   
