@@ -38,9 +38,9 @@ If they are not installed, please install from R CRAN `install.packages("package
 
 		- c11/ or c10/ or c01/: simulated results
 
-		- [Tab3-5-sauc-med-iqr-t12.Rmd](simulation/t12/Tab3-5-sauc-med-iqr-t12.Rmd): codes to reproduce Table 3-5
+		- [Tab3-5-sauc-med-iqr-t12.Rmd](simulation/res-par/t12/Tab3-5-sauc-med-iqr-t12.Rmd): codes to reproduce Table 3-5
 
-		- [Tab3-5-sauc-med-iqr-t12.pdf](simulation/t12/Tab3-5-sauc-med-iqr-t12.pdf): Table 3-5
+		- [Tab3-5-sauc-med-iqr-t12.pdf](simulation/res-par/t12/Tab3-5-sauc-med-iqr-t12.pdf): Table 3-5
 
 
 
@@ -48,9 +48,9 @@ If they are not installed, please install from R CRAN `install.packages("package
 
 		- c11/ or c10/ or c01/: simulated results
 
-		- [TabS3-S5-sauc-med-iqr-t0.7.Rmd](simulation/t12/TabS3-S5-sauc-med-iqr-t0.7.Rmd): codes to reproduce Table S3-S5
+		- [TabS3-S5-sauc-med-iqr-t0.7.Rmd](simulation/res-par/t12/TabS3-S5-sauc-med-iqr-t0.7.Rmd): codes to reproduce Table S3-S5
 
-		- [TabS3-S5-sauc-med-iqr-t0.7.pdf](simulation/t12/TabS3-S5-sauc-med-iqr-t0.7.pdf): Table S3-S5
+		- [TabS3-S5-sauc-med-iqr-t0.7.pdf](simulation/res-par/t12/TabS3-S5-sauc-med-iqr-t0.7.pdf): Table S3-S5
 
 
 - scenario/ 
