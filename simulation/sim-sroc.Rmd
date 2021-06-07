@@ -181,8 +181,8 @@ list.n <- 2  # S = 50
 seed <- 123
 
 # 
-setEPS(width = 9, height = 7)
-postscript("sim-sa3.eps")
+# setEPS(width = 9, height = 7)
+# postscript("sim-sa3.eps")
 
 par(oma = c(8,1,1,1),
     mfcol = c(2, 3), 
@@ -220,6 +220,6 @@ legend('bottom',
 
 par(mfrow = c(1,1))
 
-dev.off()
+# dev.off()
 ```
 

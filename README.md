@@ -15,39 +15,55 @@ If they are not installed, please install from R CRAN `install.packages("package
 
 - simfun/: R functions 
 
-- data-IVD.csv: Example data
+- [data-IVD.csv](example/data-IVD.csv): Example data
 
-- **[Example-ivd.Rmd](example/Example-ivd.Rmd): reproducible codes to generate results (for double-check)**
+- [Example-ivd.Rmd](example/Example-ivd.Rmd): codes to reproduce Section 3. Example
 
+- [Example-ivd.pdf](example/Example-ivd.pdf): Fig. 1 2 3, Table S1 
 
 
 ## simulation/
 
-- res/
+- [1000-times-sim-par.R](simulation/1000-times-sim-par.R): codes to reproduce simulation
 
-	- Readme.txt: notations
+- [sim-sroc.Rmd](simulation/sim-sroc.Rmd): codes to reproduce Fig. 4
 
-	- 3 folders to save the simulation results
+- [sim-sroc.pdf](simulation/sim-sroc.pdf): Fig. 4
+
+- simfun/: R functions
+
+- res-par/
+
+	- t12/: 
+
+		- c11/ or c10/ or c01/: simulated results
+
+		- [Tab3-5-sauc-med-iqr-t12.Rmd](simulation/t12/Tab3-5-sauc-med-iqr-t12.Rmd): codes to reproduce Table 3-5
+
+		- [Tab3-5-sauc-med-iqr-t12.pdf](simulation/t12/Tab3-5-sauc-med-iqr-t12.pdf): Table 3-5
+
+
+
+	- t0.7/:
+
+		- c11/ or c10/ or c01/: simulated results
+
+		- [TabS3-S5-sauc-med-iqr-t0.7.Rmd](simulation/t12/TabS3-S5-sauc-med-iqr-t0.7.Rmd): codes to reproduce Table S3-S5
+
+		- [TabS3-S5-sauc-med-iqr-t0.7.pdf](simulation/t12/TabS3-S5-sauc-med-iqr-t0.7.pdf): Table S3-S5
+
 
 - scenario/ 
 
-	- 18rows/: scenarios RData
+	- scenario-t12/: scenarios RData for $(\tau_1^2, \tau_1^2) = (1, 4)$
 
-	- Readme.txt: notations
+	- scenario-t0.7/: scenarios RData for $(\tau_1^2, \tau_1^2) = (0.5, 0.5)$
 
-	- scenario-all.R: create all scenarios in the simulation
+	- [Table-scenario.Rmd](simulation/scenario/Table-scenario.Rmd): codes to reproduce scenario table
 
-	- cal-p.R: to calculate alpha in the scenarios
+	- [Table-scenario.pdf](simulation/scenario/Table-scenario.pdf): Table 2 and Table S2
 
-	- Table-scenario-s.Rmd: show the used scenarios
 
-- simfun/
-
-	- some self-made functions used in the simulation
-
-- **1000-times-sim.R: reproducible 1000 times simulation (for double-check)**
- 
-- **xx.Rmd files: reproduce tables and figures (for double-check)**
 
 
 
