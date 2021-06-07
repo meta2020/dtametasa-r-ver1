@@ -24,11 +24,25 @@ If they are not installed, please install from R CRAN `install.packages("package
 
 ## simulation/
 
-- [1000-times-sim-par.R](simulation/1000-times-sim-par.R): codes to reproduce simulation
+- scenario/ 
+
+	- scenario-t12/: scenarios RData for $(\tau_1^2, \tau_1^2) = (1, 4)$
+
+	- scenario-t0.7/: scenarios RData for $(\tau_1^2, \tau_1^2) = (0.5, 0.5)$
+
+	- [Table-scenario.Rmd](simulation/scenario/Table-scenario.Rmd): codes to reproduce scenario table
+
+	- [Table-scenario.pdf](simulation/scenario/Table-scenario.pdf): Table 2 and Table S2
 
 - [sim-sroc.Rmd](simulation/sim-sroc.Rmd): codes to reproduce Fig. 4
 
 - [sim-sroc.pdf](simulation/sim-sroc.pdf): Fig. 4
+
+
+
+- [1000-times-sim-par.R](simulation/1000-times-sim-par.R): codes to reproduce simulation
+
+
 
 - simfun/: R functions
 
@@ -53,15 +67,6 @@ If they are not installed, please install from R CRAN `install.packages("package
 		- [TabS3-S5-sauc-med-iqr-t0.7.pdf](simulation/res-par/t0.7/TabS3-S5-sauc-med-iqr-t0.7.pdf): Table S3-S5
 
 
-- scenario/ 
-
-	- scenario-t12/: scenarios RData for $(\tau_1^2, \tau_1^2) = (1, 4)$
-
-	- scenario-t0.7/: scenarios RData for $(\tau_1^2, \tau_1^2) = (0.5, 0.5)$
-
-	- [Table-scenario.Rmd](simulation/scenario/Table-scenario.Rmd): codes to reproduce scenario table
-
-	- [Table-scenario.pdf](simulation/scenario/Table-scenario.pdf): Table 2 and Table S2
 
 
 
