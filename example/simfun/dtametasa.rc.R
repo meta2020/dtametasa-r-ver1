@@ -216,11 +216,9 @@ dtametasa.rc <- function(data,
 
     ##show.p.hat <- mean(pnorm(a.opt + opt$par[6]*t))
 
-      bp <- pnorm( (a.opt + b * u.ldor/se.ldor) / sq )
-
-      opt$p.hat <- n/sum(1/bp)
-
-      opt$data <- data
+    bp <- 1/mean(1/pnorm( (a.opt + b * u.ldor/se.ldor) / sq ), na.rm=TRUE)
+    
+    opt$p.hat <- bp
 
     class(opt) <- "dtametasa"
 

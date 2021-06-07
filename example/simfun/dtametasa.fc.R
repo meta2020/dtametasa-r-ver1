@@ -203,7 +203,7 @@ dtametasa.fc <- function(data,
     ##  P.HAT CALC, FROM b FUNCTION ----------------------------------------
     ##
 
-    bp <- 1/mean(pnorm( (a.opt + b * u.ldor/se.ldor) / sq ), na.rm=TRUE)
+    bp <- 1/mean(1/pnorm( (a.opt + b * u.ldor/se.ldor) / sq ), na.rm=TRUE)
 
     opt$p.hat <- bp
 

@@ -12,17 +12,13 @@ If they are not installed, please install from R CRAN `install.packages("package
 
 ## example/
 
-- RData/: produced results data
 
-- simfun/: self-made R functions 
+- simfun/: R functions 
 
-- data-IVD.csv: Example 1 data
+- data-IVD.csv: Example data
 
-- data-Lym.csv: Example 2 data
+- **[Example-ivd.Rmd](example/Example-ivd.Rmd): reproducible codes to generate results (for double-check)**
 
-- **examples.R: reproducible codes to generate results (for double-check)**
-
-- **PDF-ivd-lym.Rmd: reproduce figures and table (for double-check)**
 
 
 ## simulation/

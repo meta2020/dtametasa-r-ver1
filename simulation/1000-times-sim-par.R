@@ -2,10 +2,8 @@
 ##
 ## 1000 TIMES SIMULATION EXPERIMENT
 ##
-## SAVE DATA INTO DIFFERENT FOLDERS IN RES/
+## SAVE DATA INTO DIFFERENT FOLDERS IN res-par/t12 or res-par/t0.7
 ##
-## User       System         
-## 253.40      49.50    5561.77 
 ##  
 ##******************************************************************************
 rm(list = ls())
@@ -29,8 +27,11 @@ sapply(paste0("simfun/", files.sources), source)
 
 source("simfun/simu-sa-5models-par.R")
 
+## CHOOSE ONE OF OF THE SCENARIOS
+
 # tset <- "t12"
-tset <- "t0.7"
+# tset <- "t0.7"
+
 ## 3. 1000 TIMES REPEAT
 
 re <- 1000
@@ -41,7 +42,7 @@ re <- 1000
 ## 5 MODELS COMPARISON: PROPOSED.c, PROPOSED (c1=c2), PROPOSED (c1=1), Reitsma.O, Reistma.P
 ## TRUE c: c11=c22
 ##
-## RESULTS DATA SAVE INTO 
+## RESULTS DATA SAVE INTO /c11/
 ## FOLDER 1 ----
 ##
 ##******************************************************************************
@@ -91,7 +92,7 @@ for(list.n in c(1:3)){  ## i list  # Sample Size
 ## 5 MODELS COMPARISON: PROPOSED.c, PROPOSED (c1=1), PROPOSED (c1=c2), Reitsma.O, Reistma.P
 ## TRUE c: c11=1, c22=0
 ##
-## RESULTS DATA SAVE INTO 
+## RESULTS DATA SAVE INTO /c10/
 ## FOLDER 2 ----
 ##
 ##******************************************************************************
@@ -135,7 +136,7 @@ for(list.n in c(1:3)){  ## i list  # Sample Size
 ## 5 MODELS COMPARISON: PROPOSED.c, PROPOSED (c1=0), PROPOSED (c1=c2), Reitsma.O, Reistma.P
 ## TRUE c: c11=0, c22=1
 ##
-## RESULTS DATA SAVE INTO 
+## RESULTS DATA SAVE INTO /c01/
 ## FOLDER 3 ----
 ##
 ##******************************************************************************
