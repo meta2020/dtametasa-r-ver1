@@ -13,14 +13,15 @@ If they are not installed, please install from R CRAN `install.packages("package
 ## example/
 
 
-- simfun/: R functions 
+- [simfun/](example/simfun/): R functions 
 
 - [data-IVD.csv](example/data-IVD.csv): Example data
 
-- [Example-ivd.Rmd](example/Example-ivd.Rmd): codes to reproduce Section 3. Example
+- [Example-ivd-color.Rmd](example/Example-ivd-color.Rmd): codes to reproduce Section 3. Example
 
-- [Example-ivd.pdf](example/Example-ivd.pdf): Fig. 1 2 3, Table S1 
+- [Example-ivd-color.pdf](example/Example-ivd-color.pdf): Fig. 1 2 3, Table S1 (color)
 
+- [Example-ivd-bw.pdf](example/Example-ivd-bw.pdf): Fig. 1 2 3, Table S1 (black and white)
 
 ## simulation/
 
@@ -34,17 +35,18 @@ If they are not installed, please install from R CRAN `install.packages("package
 
 	- [Table-scenario.pdf](simulation/scenario/Table-scenario.pdf): Table 2 and Table S2
 
-- [sim-sroc.Rmd](simulation/sim-sroc.Rmd): codes to reproduce Fig. 4
+- [sim-sroc-color.Rmd](simulation/sim-sroc-color.Rmd): codes to reproduce Fig. 4
 
-- [sim-sroc.pdf](simulation/sim-sroc.pdf): Fig. 4
+- [sim-sroc-color.pdf](simulation/sim-sroc-color.pdf): Fig. 4 (color)
 
+- [sim-sroc-bw.pdf](simulation/sim-sroc-bw.pdf): Fig. 4 (black and white)
 
 
 - [1000-times-sim-par.R](simulation/1000-times-sim-par.R): codes to reproduce simulation
 
 
 
-- simfun/: R functions
+- [simfun/](simulation/simfun/): R functions 
 
 - res-par/
 

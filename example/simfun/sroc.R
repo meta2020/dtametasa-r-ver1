@@ -41,7 +41,7 @@ SROC.matrix <- function(par,  ## u1 u2 t12 t22
 
     roc <- function(x) plogis(u1 - (t1*r/t2) * (qlogis(x) + u2))
     curve(roc, 0, 1, col = ncols[i], add = TRUE,
-          lty = sroc.lty, lwd = sroc.lwd, ...)
+          lty = sroc.lty[i], lwd = sroc.lwd[i], ...)
   }
 
 
